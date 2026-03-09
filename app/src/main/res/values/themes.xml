@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.UltraCalc" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primaryDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/accentCyan</item>
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Btn" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="cornerRadius">18dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="elevation">0dp</item>
+    </style>
+    <style name="BtnNum" parent="Btn"><item name="backgroundTint">@color/btnNum</item></style>
+    <style name="BtnOp" parent="Btn">
+        <item name="backgroundTint">@color/btnOp</item>
+        <item name="android:textColor">@color/primaryLight</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="BtnEq" parent="Btn">
+        <item name="backgroundTint">@color/btnEq</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="BtnClear" parent="Btn">
+        <item name="backgroundTint">@color/btnClear</item>
+    </style>
+    <style name="BtnFn" parent="Btn">
+        <item name="backgroundTint">@color/btnFn</item>
+        <item name="android:textColor">@color/accentCyan</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+    <style name="TopBar" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">58dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:background">@color/bgCard</item>
+    </style>
+</resources>

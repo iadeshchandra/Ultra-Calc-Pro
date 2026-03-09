@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="58dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingStart="4dp" android:paddingEnd="16dp" android:background="@color/bgCard">
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="48dp" android:layout_height="48dp"
+            android:text="‹" android:textSize="24sp" android:textColor="@color/textPrimary"
+            app:cornerRadius="24dp"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="🔬  Scientific Calculator"
+            android:textSize="17sp" android:textStyle="bold" android:textColor="@color/textPrimary"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="vertical" android:gravity="bottom" android:padding="12dp" android:background="@color/bgCard">
+        <TextView android:id="@+id/tvExpr" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="" android:textSize="15sp" android:textColor="@color/textMuted"
+            android:gravity="end" android:singleLine="true" android:ellipsize="start"/>
+        <TextView android:id="@+id/tvDisplay" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="0" android:textSize="36sp" android:textColor="@color/textPrimary"
+            android:gravity="end" android:singleLine="true" android:ellipsize="start" android:fontFamily="monospace"/>
+    </LinearLayout>
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="2">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="6dp">
+            <!-- Trig row -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/fSin" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="sin"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fCos" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="cos"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fTan" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="tan"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fASin" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="sin⁻¹"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fACos" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="cos⁻¹"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fATan" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="tan⁻¹"/>
+            </LinearLayout>
+            <!-- Hyperbolic + Log -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/fSinh" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="sinh"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fCosh" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="cosh"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fTanh" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="tanh"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fLog" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="log"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fLn" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="ln"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fLog2" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="log₂"/>
+            </LinearLayout>
+            <!-- Power roots -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/fSqrt" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="√x"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fCbrt" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="∛x"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fSq" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="x²"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fCu" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="x³"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fExp" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="eˣ"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fAbs" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="|x|"/>
+            </LinearLayout>
+            <!-- Misc -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/fFact" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="n!"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fFloor" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="⌊x⌋"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fCeil" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="⌈x⌉"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fPi" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="π"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/fE" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="e"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bPow" style="@style/BtnFn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="xʸ"/>
+            </LinearLayout>
+            <!-- Brackets + control -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="58dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/bOB" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="("/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bCB" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text=")"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bPct" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="%"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bDel" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="⌫"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bC" style="@style/BtnClear" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="C"/>
+            </LinearLayout>
+            <!-- Numbers -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="62dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/b7" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="7"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/b8" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="8"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/b9" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="9"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bDiv" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="÷"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bMul" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="×"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="62dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/b4" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="4"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/b5" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="5"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/b6" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="6"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bMinus" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="−"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bPlus" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="+"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="62dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/b1" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="1"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/b2" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="2"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/b3" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="3"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bPM" style="@style/BtnOp" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="+/−"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bEq" style="@style/BtnEq" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="="/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="62dp" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/b0" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="2" android:text="0"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/bDot" style="@style/BtnNum" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="."/>
+                <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="2"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

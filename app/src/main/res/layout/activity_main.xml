@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="18dp">
+
+        <!-- Header -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:gravity="center"
+            android:paddingTop="24dp" android:paddingBottom="24dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="🧮" android:textSize="56sp" android:gravity="center"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Ultra Calc Pro"
+                android:textSize="32sp" android:textStyle="bold"
+                android:textColor="@color/textPrimary" android:layout_marginTop="8dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="by Adesh Chandra"
+                android:textSize="13sp" android:textColor="@color/primary" android:layout_marginTop="2dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="No Ads • No Permissions • 100% Offline"
+                android:textSize="12sp" android:textColor="@color/accentGreen" android:layout_marginTop="6dp"/>
+        </LinearLayout>
+
+        <!-- Row 1 -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="130dp"
+            android:orientation="horizontal" android:layout_marginBottom="12dp">
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardCalc"
+                android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+                android:layout_marginEnd="6dp" app:cardCornerRadius="20dp" app:cardElevation="0dp"
+                app:cardBackgroundColor="#1C1C38" android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="🔢" android:textSize="34sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Calculator" android:textSize="14sp" android:textStyle="bold"
+                        android:textColor="@color/textPrimary" android:layout_marginTop="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Basic + History" android:textSize="11sp" android:textColor="@color/textMuted" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardSci"
+                android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+                android:layout_marginStart="6dp" app:cardCornerRadius="20dp" app:cardElevation="0dp"
+                app:cardBackgroundColor="#161830" android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="🔬" android:textSize="34sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Scientific" android:textSize="14sp" android:textStyle="bold"
+                        android:textColor="@color/textPrimary" android:layout_marginTop="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="sin cos log n!" android:textSize="11sp" android:textColor="@color/textMuted" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Row 2 -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="130dp"
+            android:orientation="horizontal" android:layout_marginBottom="12dp">
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardConv"
+                android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+                android:layout_marginEnd="6dp" app:cardCornerRadius="20dp" app:cardElevation="0dp"
+                app:cardBackgroundColor="#131E25" android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="⚖️" android:textSize="34sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Converter" android:textSize="14sp" android:textStyle="bold"
+                        android:textColor="@color/textPrimary" android:layout_marginTop="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="14 categories" android:textSize="11sp" android:textColor="@color/textMuted" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardFin"
+                android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+                android:layout_marginStart="6dp" app:cardCornerRadius="20dp" app:cardElevation="0dp"
+                app:cardBackgroundColor="#1A1A10" android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="💰" android:textSize="34sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Financial" android:textSize="14sp" android:textStyle="bold"
+                        android:textColor="@color/textPrimary" android:layout_marginTop="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="EMI GST SIP ROI" android:textSize="11sp" android:textColor="@color/textMuted" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Row 3 -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="130dp"
+            android:orientation="horizontal" android:layout_marginBottom="12dp">
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardHealth"
+                android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+                android:layout_marginEnd="6dp" app:cardCornerRadius="20dp" app:cardElevation="0dp"
+                app:cardBackgroundColor="#111A15" android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="❤️" android:textSize="34sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Health" android:textSize="14sp" android:textStyle="bold"
+                        android:textColor="@color/textPrimary" android:layout_marginTop="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="BMI BMR Calories" android:textSize="11sp" android:textColor="@color/textMuted" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardMath"
+                android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+                android:layout_marginStart="6dp" app:cardCornerRadius="20dp" app:cardElevation="0dp"
+                app:cardBackgroundColor="#151520" android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="📊" android:textSize="34sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Math Tools" android:textSize="14sp" android:textStyle="bold"
+                        android:textColor="@color/textPrimary" android:layout_marginTop="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="GCF LCM Quadratic" android:textSize="11sp" android:textColor="@color/textMuted" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Row 4 -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="130dp"
+            android:orientation="horizontal" android:layout_marginBottom="20dp">
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardDate"
+                android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+                android:layout_marginEnd="6dp" app:cardCornerRadius="20dp" app:cardElevation="0dp"
+                app:cardBackgroundColor="#1A1525" android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="📅" android:textSize="34sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Date Calc" android:textSize="14sp" android:textStyle="bold"
+                        android:textColor="@color/textPrimary" android:layout_marginTop="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Age Diff Days" android:textSize="11sp" android:textColor="@color/textMuted" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardHistory"
+                android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+                android:layout_marginStart="6dp" app:cardCornerRadius="20dp" app:cardElevation="0dp"
+                app:cardBackgroundColor="#201A1A" android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical" android:gravity="center" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="🕐" android:textSize="34sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="History" android:textSize="14sp" android:textStyle="bold"
+                        android:textColor="@color/textPrimary" android:layout_marginTop="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="All calculations" android:textSize="11sp" android:textColor="@color/textMuted" android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

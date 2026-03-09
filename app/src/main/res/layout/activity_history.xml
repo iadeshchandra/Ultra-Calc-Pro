@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="58dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingStart="4dp" android:paddingEnd="8dp" android:background="@color/bgCard">
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnBack"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="48dp" android:layout_height="48dp"
+            android:text="‹" android:textSize="24sp" android:textColor="@color/textPrimary"
+            app:cornerRadius="24dp"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="🕐  Calculation History" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/textPrimary"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnClear"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Clear All" android:textColor="#FF4444" android:textSize="13sp"
+            app:cornerRadius="12dp"/>
+    </LinearLayout>
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:background="@color/bgCard" android:scrollbars="none">
+        <LinearLayout android:id="@+id/filterBar" android:layout_width="wrap_content"
+            android:layout_height="48dp" android:orientation="horizontal"
+            android:paddingStart="8dp" android:paddingEnd="8dp" android:gravity="center_vertical"/>
+    </HorizontalScrollView>
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="12dp">
+            <TextView android:id="@+id/tvEmpty" android:layout_width="match_parent"
+                android:layout_height="200dp" android:text="No history yet.\nStart calculating! 🧮"
+                android:textSize="16sp" android:textColor="@color/textMuted"
+                android:gravity="center" android:visibility="gone"/>
+            <LinearLayout android:id="@+id/histList" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

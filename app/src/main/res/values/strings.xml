@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ultra Calc Pro</string>
+    <string name="author">by Adesh Chandra</string>
+    <string name="no_history">No history yet.\nStart calculating!</string>
+</resources>

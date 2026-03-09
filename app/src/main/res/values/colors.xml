@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#0D0D1A</color>
+    <color name="bgCard">#141428</color>
+    <color name="bgCardAlt">#1A1A35</color>
+    <color name="primary">#7C6FFF</color>
+    <color name="primaryDark">#5A4FCC</color>
+    <color name="primaryLight">#A99BFF</color>
+    <color name="accentCyan">#00E5FF</color>
+    <color name="accentGreen">#00E676</color>
+    <color name="accentOrange">#FF9100</color>
+    <color name="accentRed">#FF1744</color>
+    <color name="accentPink">#F50057</color>
+    <color name="btnNum">#1C1C38</color>
+    <color name="btnOp">#252548</color>
+    <color name="btnEq">#7C6FFF</color>
+    <color name="btnClear">#FF1744</color>
+    <color name="btnFn">#1E2850</color>
+    <color name="textPrimary">#FFFFFF</color>
+    <color name="textSecondary">#B0AECC</color>
+    <color name="textMuted">#5A5880</color>
+    <color name="divider">#1F1F3A</color>
+    <color name="white">#FFFFFF</color>
+</resources>

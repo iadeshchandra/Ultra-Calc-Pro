@@ -1,0 +1,3 @@
+-keep class com.adeshchandra.ultracalc.** { *; }
+-keep class com.google.gson.** { *; }
+-keepattributes Signature,*Annotation*

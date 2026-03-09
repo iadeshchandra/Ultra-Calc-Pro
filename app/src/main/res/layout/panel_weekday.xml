@@ -1,0 +1,25 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp" app:cardElevation="0dp" app:cardBackgroundColor="#141428">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Select a Date" android:textSize="13sp" android:textColor="#B0AECC"
+            android:layout_marginBottom="6dp" android:layout_marginTop="4dp"/>        <com.google.android.material.button.MaterialButton android:id="@+id/btnPick"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent" android:layout_height="52dp"
+            android:text="📅 Pick Date" android:textColor="#7C6FFF"
+            android:layout_marginBottom="8dp" app:cornerRadius="14dp" app:strokeColor="#7C6FFF"/>        <TextView android:id="@+id/tvDate" android:layout_width="match_parent"
+            android:layout_height="52dp" android:text="Tap to pick date" android:textSize="16sp"
+            android:textColor="#FFFFFF" android:gravity="center_vertical|end"
+            android:background="#1C1C38" android:paddingEnd="14dp" android:layout_marginBottom="10dp"/>        <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="match_parent" android:layout_height="52dp"
+            android:text="CALCULATE" android:textColor="#FFFFFF" android:backgroundTint="#7C6FFF"
+            android:layout_marginTop="10dp" app:cornerRadius="14dp"/>        <TextView android:id="@+id/tvResult" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="" android:textSize="16sp"
+            android:textColor="#A99BFF" android:layout_marginTop="14dp"
+            android:padding="14dp" android:background="#0D0D20" android:lineSpacingExtra="4dp"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
