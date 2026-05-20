@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="10dp">
+    <EditText android:id="@+id/etBill" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Bill Amount" android:inputType="numberDecimal"/>
+    <EditText android:id="@+id/etTip" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Tip (%)" android:inputType="numberDecimal"/>
+    <EditText android:id="@+id/etPeople" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="People" android:inputType="number"/>
+    <Button android:id="@+id/btnCalc" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Calculate"/>
+    <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="10dp"/>
+</LinearLayout>
