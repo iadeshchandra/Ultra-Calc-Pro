@@ -159,64 +159,78 @@
         </LinearLayout>
 
         <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:background="#FFFFFF">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center" android:layout_marginBottom="16dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🪓 WOOD CALCULATOR INVOICE" android:textColor="#000000" android:textSize="18sp" android:textStyle="bold"/>
-                </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                
+                <LinearLayout
+                    android:id="@+id/invoicePrintArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="#FFFFFF">
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
-                    <TextView android:id="@+id/invDate" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textColor="#000000" android:text="Date: "/>
-                    <TextView android:id="@+id/invTime" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textColor="#000000" android:text="Time: " android:gravity="end"/>
-                </LinearLayout>
-
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
-                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Seller Details" android:textStyle="bold" android:textColor="#000000"/>
-                        <TextView android:id="@+id/invSeller" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/border_rect" android:padding="8dp" android:textColor="#000000" android:layout_marginTop="4dp"/>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center" android:layout_marginBottom="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🪓 WOOD CALCULATOR INVOICE" android:textColor="#000000" android:textSize="18sp" android:textStyle="bold"/>
                     </LinearLayout>
-                    <View android:layout_width="12dp" android:layout_height="match_parent"/>
-                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Customer Details" android:textStyle="bold" android:textColor="#000000"/>
-                        <TextView android:id="@+id/invCustomer" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/border_rect" android:padding="8dp" android:textColor="#000000" android:layout_marginTop="4dp"/>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+                        <TextView android:id="@+id/invDate" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textColor="#000000" android:text="Date: "/>
+                        <TextView android:id="@+id/invTime" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textColor="#000000" android:text="Time: " android:gravity="end"/>
                     </LinearLayout>
-                </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="#0F8B8D" android:padding="6dp">
-                    <TextView android:layout_width="0dp" android:layout_weight="0.6" android:layout_height="wrap_content" android:text="S.No" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
-                    <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="Length" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
-                    <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="Data 2" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
-                    <TextView android:layout_width="0dp" android:layout_weight="0.8" android:layout_height="wrap_content" android:text="Qty" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
-                    <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="Vol" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
-                </LinearLayout>
-
-                <LinearLayout android:id="@+id/invTableRows" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
-
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp">
-                    <View android:layout_width="0dp" android:layout_weight="3" android:layout_height="match_parent"/>
-                    <LinearLayout android:layout_width="0dp" android:layout_weight="2.5" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/border_rect">
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Vol" android:textColor="#000000" android:textStyle="bold"/>
-                            <TextView android:id="@+id/invTotalVol" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+                        <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Seller Details" android:textStyle="bold" android:textColor="#000000"/>
+                            <TextView android:id="@+id/invSeller" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/border_rect" android:padding="8dp" android:textColor="#000000" android:layout_marginTop="4dp"/>
                         </LinearLayout>
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Qty" android:textColor="#000000" android:textStyle="bold"/>
-                            <TextView android:id="@+id/invTotalQty" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
-                        </LinearLayout>
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Rate" android:textColor="#000000" android:textStyle="bold"/>
-                            <TextView android:id="@+id/invRate" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
-                        </LinearLayout>
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp" android:background="#E1C699">
-                            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Amt" android:textColor="#000000" android:textStyle="bold"/>
-                            <TextView android:id="@+id/invTotalAmount" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000" android:textStyle="bold"/>
+                        <View android:layout_width="12dp" android:layout_height="match_parent"/>
+                        <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Customer Details" android:textStyle="bold" android:textColor="#000000"/>
+                            <TextView android:id="@+id/invCustomer" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/border_rect" android:padding="8dp" android:textColor="#000000" android:layout_marginTop="4dp"/>
                         </LinearLayout>
                     </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="#0F8B8D" android:padding="6dp">
+                        <TextView android:layout_width="0dp" android:layout_weight="0.6" android:layout_height="wrap_content" android:text="S.No" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                        <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="Length" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                        <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="Data 2" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                        <TextView android:layout_width="0dp" android:layout_weight="0.8" android:layout_height="wrap_content" android:text="Qty" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                        <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="Vol" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:id="@+id/invTableRows" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp">
+                        <View android:layout_width="0dp" android:layout_weight="3" android:layout_height="match_parent"/>
+                        <LinearLayout android:layout_width="0dp" android:layout_weight="2.5" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/border_rect">
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Vol" android:textColor="#000000" android:textStyle="bold"/>
+                                <TextView android:id="@+id/invTotalVol" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
+                            </LinearLayout>
+                            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Qty" android:textColor="#000000" android:textStyle="bold"/>
+                                <TextView android:id="@+id/invTotalQty" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
+                            </LinearLayout>
+                            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Rate" android:textColor="#000000" android:textStyle="bold"/>
+                                <TextView android:id="@+id/invRate" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
+                            </LinearLayout>
+                            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp" android:background="#E1C699">
+                                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Amt" android:textColor="#000000" android:textStyle="bold"/>
+                                <TextView android:id="@+id/invTotalAmount" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000" android:textStyle="bold"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <Button android:id="@+id/btnBackToCalcFromInvoice" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="32dp" android:text="← Back to Calculator" android:backgroundTint="#0F8B8D"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="16dp">
+                    <Button android:id="@+id/btnBackToCalcFromInvoice" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:text="← BACK" android:backgroundTint="#0F8B8D" android:layout_marginEnd="8dp"/>
+                    <Button android:id="@+id/btnSharePdf" android:layout_width="0dp" android:layout_weight="1.5" android:layout_height="50dp" android:text="SHARE PDF" android:backgroundTint="#00E676" android:textColor="#000000" android:textStyle="bold"/>
+                </LinearLayout>
+                
             </LinearLayout>
         </ScrollView>
     </ViewFlipper>
