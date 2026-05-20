@@ -1,5 +1,10 @@
 package com.adeshchandra.ultracalc;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +15,10 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,8 +30,6 @@ public class WoodActivity extends AppCompatActivity {
     
     // State Tracking
     private int currentMode = 0; 
-    // 0: Round(Ft/In), 1: Size(Ft/In), 2: Door(Ft/In)
-    // 3: Round(M/cm), 4: Size(M/cm), 5: Door(M/cm)
     private ArrayList<WoodItem> woodList = new ArrayList<>();
     
     // Calculator Views
@@ -34,6 +41,7 @@ public class WoodActivity extends AppCompatActivity {
     
     // Invoice Variables
     private double currentRate = 0.0;
+    private LinearLayout invoicePrintArea;
 
     class WoodItem {
         int sNo; double length; double param2; double param3; int qty; double volume;
@@ -48,6 +56,7 @@ public class WoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wood);
 
         viewFlipper = findViewById(R.id.viewFlipper);
+        invoicePrintArea = findViewById(R.id.invoicePrintArea);
         
         // Navigation Setup
         findViewById(R.id.btnBackDashboard).setOnClickListener(v -> finish());
@@ -57,6 +66,9 @@ public class WoodActivity extends AppCompatActivity {
             viewFlipper.setDisplayedChild(0);
         });
         findViewById(R.id.btnBackToCalcFromInvoice).setOnClickListener(v -> viewFlipper.setDisplayedChild(1));
+
+        // Setup the PDF Share Listener
+        findViewById(R.id.btnSharePdf).setOnClickListener(v -> exportAndSharePdf());
 
         setupDashboardGrid();
         setupCalculatorPad();
@@ -130,18 +142,11 @@ public class WoodActivity extends AppCompatActivity {
             int q = etQty.getText().toString().isEmpty() ? 1 : Integer.parseInt(etQty.getText().toString());
 
             double vol = 0;
-            
-            // Round Wood Imperial (Quarter Girth Formula)
             if (currentMode == 0) vol = ((p2 / 4.0) * (p2 / 4.0) * l) / 144.0;
-            // Size Wood Imperial
             else if (currentMode == 1) vol = (l * p2 * p3) / 144.0;
-            // Door Area Imperial
-            else if (currentMode == 2) vol = (l * p2) / 12.0; // Assuming Length in Ft, Width in Inches
-            // Round Wood Metric
+            else if (currentMode == 2) vol = (l * p2) / 12.0;
             else if (currentMode == 3) vol = ((p2 / 4.0) * (p2 / 4.0) * l) / 10000.0;
-            // Size Wood Metric
             else if (currentMode == 4) vol = (l * p2 * p3) / 10000.0;
-            // Door Area Metric
             else if (currentMode == 5) vol = (l * p2) / 100.0; 
 
             double totalVol = vol * q;
@@ -237,5 +242,52 @@ public class WoodActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.invTotalAmount)).setText(String.format(Locale.US, "%.0f ৳", sumVol * currentRate));
 
         viewFlipper.setDisplayedChild(2);
+    }
+
+    // --- PDF EXPORT LOGIC ---
+    private void exportAndSharePdf() {
+        if (invoicePrintArea.getWidth() == 0 || invoicePrintArea.getHeight() == 0) {
+            Toast.makeText(this, "Invoice layout not ready", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 1. Create a Bitmap of the Invoice view
+        Bitmap bitmap = Bitmap.createBitmap(invoicePrintArea.getWidth(), invoicePrintArea.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        invoicePrintArea.draw(canvas);
+
+        // 2. Create the PdfDocument and Page
+        PdfDocument pdfDocument = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+        // 3. Draw Bitmap onto PDF Canvas
+        Canvas pdfCanvas = page.getCanvas();
+        pdfCanvas.drawBitmap(bitmap, 0, 0, null);
+        pdfDocument.finishPage(page);
+
+        // 4. Save to Secure Cache Directory
+        File cachePath = new File(getCacheDir(), "invoices");
+        if (!cachePath.exists()) cachePath.mkdirs();
+        File pdfFile = new File(cachePath, "Wood_Invoice_" + System.currentTimeMillis() + ".pdf");
+
+        try {
+            FileOutputStream fos = new FileOutputStream(pdfFile);
+            pdfDocument.writeTo(fos);
+            pdfDocument.close();
+            fos.close();
+
+            // 5. Trigger the Native Share Intent via FileProvider
+            Uri pdfUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", pdfFile);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Share Invoice via"));
+
+        } catch (IOException e) {
+            pdfDocument.close();
+            Toast.makeText(this, "Failed to generate PDF", Toast.LENGTH_SHORT).show();
+        }
     }
 }
