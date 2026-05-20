@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#1E293B">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Invoice Setup"
+        android:textColor="#22D3EE"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etRate"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#0F172A"
+        android:hint="Tell me the Price / Rate (৳)"
+        android:textColorHint="#94A3B8"
+        android:textColor="#F8FAFC"
+        android:inputType="numberDecimal"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/etSeller"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#0F172A"
+        android:hint="Seller Details (Name &amp; Phone)"
+        android:textColorHint="#94A3B8"
+        android:textColor="#F8FAFC"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/etCustomer"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#0F172A"
+        android:hint="Customer Details (Name &amp; Phone)"
+        android:textColorHint="#94A3B8"
+        android:textColor="#F8FAFC"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:padding="12dp"/>
+</LinearLayout>
