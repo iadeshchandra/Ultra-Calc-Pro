@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class ConverterActivity extends AppCompatActivity {
-    private EditText inputPrimary, inputSecondary, inputTertiary, inputPricePerUnit;
+    private EditText inputPrimary, inputSecondary, inputTertiary, inputPieces, inputPricePerUnit;
     private TextView resultDisplay, historyList;
     private AutoCompleteTextView modeSelector;
     private ArrayList<String> logs = new ArrayList<>();
@@ -24,19 +24,20 @@ public class ConverterActivity extends AppCompatActivity {
         inputPrimary = findViewById(R.id.inputPrimary);
         inputSecondary = findViewById(R.id.inputSecondary);
         inputTertiary = findViewById(R.id.inputTertiary);
+        inputPieces = findViewById(R.id.inputPieces);
         inputPricePerUnit = findViewById(R.id.inputPricePerUnit);
         resultDisplay = findViewById(R.id.resultDisplay);
         historyList = findViewById(R.id.historyList);
         modeSelector = findViewById(R.id.modeSelector);
         Button btnAction = findViewById(R.id.btnAction);
         
-        // Back Button to return to Dashboard
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         String[] metrics = {
-            "Wood: Round Log (CFT)",
-            "Wood: Sawn Size Timber (CFT)",
-            "Currency: USD to BDT (110)",
+            "Wood: Round Log Volume (CFT)",
+            "Wood: Sawn Sized Plank (CFT)",
+            "Wood: Standing Tree / Air Est (CFT)",
+            "Currency: USD to BDT (110 Offline)",
             "Land: Bigha to Decimal",
             "Land: Decimal to Sq Ft",
             "Weight: KG to Lbs",
@@ -47,42 +48,47 @@ public class ConverterActivity extends AppCompatActivity {
         modeSelector.setAdapter(adapter);
 
         modeSelector.setOnItemClickListener((parent, view, position, id) -> {
-            String selected = itemMapping(position);
-            adjustFormLayout(selected);
+            adjustFormLayout(position);
         });
 
         btnAction.setOnClickListener(v -> executeEngine());
     }
 
-    private String itemMapping(int pos) {
-        switch(pos) {
-            case 0: return "ROUND";
-            case 1: return "SAWN";
-            default: return "STANDARD";
-        }
-    }
-
-    private void adjustFormLayout(String mode) {
+    private void adjustFormLayout(int pos) {
         inputPrimary.setText("");
         inputSecondary.setText("");
         inputTertiary.setText("");
+        inputPieces.setText("1");
         inputPricePerUnit.setText("");
         
-        if (mode.equals("ROUND")) {
+        if (pos == 0) { // Round Log
             inputPrimary.setHint("Length (Feet)");
             inputSecondary.setHint("Girth / Circumference (Inches)");
             inputSecondary.setVisibility(View.VISIBLE);
             inputTertiary.setVisibility(View.GONE);
-        } else if (mode.equals("SAWN")) {
+            inputPieces.setVisibility(View.VISIBLE);
+            inputPricePerUnit.setVisibility(View.VISIBLE);
+        } else if (pos == 1) { // Sawn Size
             inputPrimary.setHint("Length (Feet)");
             inputSecondary.setHint("Width (Inches)");
             inputTertiary.setHint("Thickness (Inches)");
             inputSecondary.setVisibility(View.VISIBLE);
             inputTertiary.setVisibility(View.VISIBLE);
-        } else {
-            inputPrimary.setHint("Enter Base Value");
+            inputPieces.setVisibility(View.VISIBLE);
+            inputPricePerUnit.setVisibility(View.VISIBLE);
+        } else if (pos == 2) { // Standing Tree / Air Est
+            inputPrimary.setHint("Height / Length (Feet)");
+            inputSecondary.setHint("Center Girth Over Bark (Inches)");
+            inputSecondary.setVisibility(View.VISIBLE);
+            inputTertiary.setVisibility(View.GONE);
+            inputPieces.setVisibility(View.VISIBLE);
+            inputPricePerUnit.setVisibility(View.VISIBLE);
+        } else { // Standard conversions
+            inputPrimary.setHint("Enter Input Value");
             inputSecondary.setVisibility(View.GONE);
             inputTertiary.setVisibility(View.GONE);
+            inputPieces.setVisibility(View.GONE);
+            inputPricePerUnit.setVisibility(View.GONE);
         }
     }
 
@@ -92,50 +98,70 @@ public class ConverterActivity extends AppCompatActivity {
         
         if (mode.isEmpty() || pStr.isEmpty()) return;
         
-        double p = Double.parseDouble(pStr);
+        double primaryVal = Double.parseDouble(pStr);
+        int pieces = 1;
+        String piecesStr = inputPieces.getText().toString();
+        if (!piecesStr.isEmpty()) {
+            pieces = Integer.parseInt(piecesStr);
+        }
+
         double pricePerUnit = 0;
         String priceStr = inputPricePerUnit.getText().toString();
         if (!priceStr.isEmpty()) {
             pricePerUnit = Double.parseDouble(priceStr);
         }
 
-        double finalVolumeOrMetric = 0;
+        double calculatedOutput = 0;
         String outputLabel = "";
 
-        if (mode.contains("Round Log")) {
+        if (mode.contains("Round Log Volume")) {
             String sStr = inputSecondary.getText().toString();
             if (sStr.isEmpty()) return;
             double girth = Double.parseDouble(sStr);
-            finalVolumeOrMetric = ((girth / 4.0) * (girth / 4.0) * p) / 144.0;
+            // Local standard Quarter-Girth formula: ((Girth/4)^2 * Length) / 144
+            calculatedOutput = ((girth / 4.0) * (girth / 4.0) * primaryVal) / 144.0;
+            calculatedOutput *= pieces;
             outputLabel = " CFT";
         } 
-        else if (mode.contains("Sawn Size")) {
+        else if (mode.contains("Sawn Sized Plank")) {
             String sStr = inputSecondary.getText().toString();
             String tStr = inputTertiary.getText().toString();
             if (sStr.isEmpty() || tStr.isEmpty()) return;
             double width = Double.parseDouble(sStr);
             double thickness = Double.parseDouble(tStr);
-            finalVolumeOrMetric = (p * width * thickness) / 144.0;
+            // Sawn Plank formula: (Length * Width * Thickness) / 144
+            calculatedOutput = (primaryVal * width * thickness) / 144.0;
+            calculatedOutput *= pieces;
             outputLabel = " CFT";
         }
-        else if (mode.contains("USD to BDT")) { finalVolumeOrMetric = p * 110.0; outputLabel = " ৳"; }
-        else if (mode.contains("Bigha to Decimal")) { finalVolumeOrMetric = p * 33.06; outputLabel = " Dec"; }
-        else if (mode.contains("Decimal to Sq Ft")) { finalVolumeOrMetric = p * 435.6; outputLabel = " sq ft"; }
-        else if (mode.contains("KG to Lbs")) { finalVolumeOrMetric = p * 2.204; outputLabel = " lbs"; }
-        else if (mode.contains("Liters to Gallons")) { finalVolumeOrMetric = p * 0.264; outputLabel = " gal"; }
+        else if (mode.contains("Standing Tree / Air Est")) {
+            String sStr = inputSecondary.getText().toString();
+            if (sStr.isEmpty()) return;
+            double centerGirth = Double.parseDouble(sStr);
+            // Standing tree measurement accounting for bark loss and air geometry reductions
+            double quarterGirthReduced = (centerGirth * 0.9) / 4.0; 
+            calculatedOutput = (quarterGirthReduced * quarterGirthReduced * primaryVal) / 144.0;
+            calculatedOutput *= pieces;
+            outputLabel = " CFT (Est.)";
+        }
+        else if (mode.contains("USD to BDT")) { calculatedOutput = primaryVal * 110.0; outputLabel = " ৳"; }
+        else if (mode.contains("Bigha to Decimal")) { calculatedOutput = primaryVal * 33.06; outputLabel = " Dec"; }
+        else if (mode.contains("Decimal to Sq Ft")) { calculatedOutput = primaryVal * 435.6; outputLabel = " sq ft"; }
+        else if (mode.contains("KG to Lbs")) { calculatedOutput = primaryVal * 2.204; outputLabel = " lbs"; }
+        else if (mode.contains("Liters to Gallons")) { calculatedOutput = primaryVal * 0.264; outputLabel = " gal"; }
 
-        String printResult = String.format("%.2f", finalVolumeOrMetric) + outputLabel;
+        String printResult = String.format(java.util.Locale.US, "%.3f", calculatedOutput) + outputLabel;
         
-        if (pricePerUnit > 0 && (mode.contains("Round Log") || mode.contains("Sawn Size"))) {
-            double totalPrice = finalVolumeOrMetric * pricePerUnit;
-            printResult += " | Total Cost: " + String.format("%.2f", totalPrice) + " ৳";
+        if (pricePerUnit > 0 && (mode.contains("Wood:") || mode.contains("Standing"))) {
+            double totalPrice = calculatedOutput * pricePerUnit;
+            printResult += " \nTotal Price: " + String.format(java.util.Locale.US, "%.2f", totalPrice) + " ৳";
         }
 
         resultDisplay.setText(printResult);
-        logs.add(0, mode.split(":")[0] + " Calc -> " + printResult);
+        logs.add(0, mode.split(":")[1].trim() + " -> " + printResult.replace("\n", " | "));
         
         StringBuilder sb = new StringBuilder();
-        for (String s : logs) sb.append("✓ ").append(s).append("\n");
+        for (String s : logs) sb.append("✓ ").append(s).append("\n\n");
         historyList.setText(sb.toString());
     }
 }
