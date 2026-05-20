@@ -1,40 +1,117 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    app:cardCornerRadius="16dp" app:cardElevation="0dp" app:cardBackgroundColor="#141428">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="vertical" android:padding="16dp">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Weight (kg)" android:textSize="13sp" android:textColor="#B0AECC"
-            android:layout_marginBottom="6dp" android:layout_marginTop="4dp"/>        <EditText android:id="@+id/etWeight" android:layout_width="match_parent"
-            android:textColor="#FFFFFF" android:textSize="16sp" android:inputType="numberDecimal"
-            android:background="#1C1C38" android:paddingStart="12dp" android:paddingEnd="12dp"
-            android:layout_marginBottom="10dp"/>        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Height (cm)" android:textSize="13sp" android:textColor="#B0AECC"
-            android:layout_marginBottom="6dp" android:layout_marginTop="4dp"/>        <EditText android:id="@+id/etHeight" android:layout_width="match_parent"
-            android:textColor="#FFFFFF" android:textSize="16sp" android:inputType="numberDecimal"
-            android:background="#1C1C38" android:paddingStart="12dp" android:paddingEnd="12dp"
-            android:layout_marginBottom="10dp"/>        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Age (years)" android:textSize="13sp" android:textColor="#B0AECC"
-            android:layout_marginBottom="6dp" android:layout_marginTop="4dp"/>        <EditText android:id="@+id/etAge" android:layout_width="match_parent"
-            android:textColor="#FFFFFF" android:textSize="16sp" android:inputType="number"
-            android:background="#1C1C38" android:paddingStart="12dp" android:paddingEnd="12dp"
-            android:layout_marginBottom="10dp"/>        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Gender" android:textSize="13sp" android:textColor="#B0AECC"
-            android:layout_marginBottom="6dp" android:layout_marginTop="4dp"/>        <RadioGroup android:id="@+id/rgGender" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
-            <RadioButton android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:text="Male" android:textColor="#FFFFFF" android:checked="true"/>
-            <RadioButton android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:text="Female" android:textColor="#FFFFFF"/>
-        </RadioGroup>        <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="match_parent" android:layout_height="52dp"
-            android:text="CALCULATE" android:textColor="#FFFFFF" android:backgroundTint="#7C6FFF"
-            android:layout_marginTop="10dp" app:cornerRadius="14dp"/>        <TextView android:id="@+id/tvResult" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:text="" android:textSize="16sp"
-            android:textColor="#00E676" android:layout_marginTop="14dp"
-            android:padding="14dp" android:background="#0D1A0D" android:lineSpacingExtra="4dp"/>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#111827"
+        app:cardCornerRadius="16dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#1E293B"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Basal Metabolic Rate (BMR)"
+                android:textColor="#22D3EE"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
+            <EditText
+                android:id="@+id/etWeight"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="#0F172A"
+                android:hint="Weight (kg)"
+                android:textColorHint="#64748B"
+                android:textColor="#F8FAFC"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"/>
+
+            <EditText
+                android:id="@+id/etHeight"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="#0F172A"
+                android:hint="Height (cm)"
+                android:textColorHint="#64748B"
+                android:textColor="#F8FAFC"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"/>
+
+            <EditText
+                android:id="@+id/etAge"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="#0F172A"
+                android:hint="Age (Years)"
+                android:textColorHint="#64748B"
+                android:textColor="#F8FAFC"
+                android:inputType="number"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"/>
+
+            <RadioGroup
+                android:id="@+id/rgGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="center">
+                <RadioButton
+                    android:id="@+id/rbMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:textColor="#F8FAFC"
+                    android:checked="true"
+                    android:layout_marginEnd="24dp"/>
+                <RadioButton
+                    android:id="@+id/rbFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#F8FAFC"
+                    android:text="Female"/>
+            </RadioGroup>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCalc"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:text="CALCULATE METABOLISM"
+                android:textColor="#020617"
+                android:textStyle="bold"
+                app:backgroundTint="#22D3EE"
+                app:cornerRadius="12dp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Caloric profiles layout ready."
+            android:textColor="#94A3B8"
+            android:textSize="15sp"
+            android:lineSpacingExtra="4dp"
+            android:gravity="center_horizontal"/>
+    </ScrollView>
+</LinearLayout>
