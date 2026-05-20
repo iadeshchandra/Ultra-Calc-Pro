@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="10dp">
+    <EditText android:id="@+id/etPrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Original Price" android:inputType="numberDecimal"/>
+    <EditText android:id="@+id/etDisc" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Discount (%)" android:inputType="numberDecimal"/>
+    <Button android:id="@+id/btnCalc" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Calculate"/>
+    <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="10dp"/>
+</LinearLayout>
