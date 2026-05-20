@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#020617">
+
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#111827">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBack"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="‹"
+                    android:textSize="24sp"
+                    android:textColor="#F8FAFC"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🪓 Wood Calculator"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#F8FAFC"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnARGuide"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📷 AR Measure"
+                    android:textColor="#22D3EE"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#0F8B8D"
+                android:padding="12dp">
+                <TextView
+                    android:id="@+id/tvTotalLogs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total Wood: 0"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#FFFFFF"/>
+                <TextView
+                    android:id="@+id/tvTotalVolume"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total (Foot)³: 0.0"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+                <EditText
+                    android:id="@+id/etLength"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="#1E293B"
+                    android:hint="Length (ft)"
+                    android:textColorHint="#94A3B8"
+                    android:textColor="#F8FAFC"
+                    android:inputType="numberDecimal"
+                    android:padding="12dp"
+                    android:layout_marginEnd="4dp"/>
+                <EditText
+                    android:id="@+id/etGirth"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="#1E293B"
+                    android:hint="Girth (in)"
+                    android:textColorHint="#94A3B8"
+                    android:textColor="#F8FAFC"
+                    android:inputType="numberDecimal"
+                    android:padding="12dp"
+                    android:layout_marginEnd="4dp"/>
+                <EditText
+                    android:id="@+id/etQty"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.8"
+                    android:background="#1E293B"
+                    android:hint="Qty"
+                    android:textColorHint="#94A3B8"
+                    android:textColor="#F8FAFC"
+                    android:inputType="number"
+                    android:padding="12dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAddLog"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="16dp"
+                android:text="Add Log to List"
+                android:backgroundTint="#0F8B8D"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#0F8B8D"
+                android:layout_marginTop="16dp"
+                android:padding="8dp">
+                <TextView android:layout_width="0dp" android:layout_weight="0.8" android:layout_height="wrap_content" android:text="S.No" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="Length" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_weight="1.5" android:layout_height="wrap_content" android:text="Roundness" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Qty" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="(Foot)³" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:id="@+id/tableRowsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
+            </ScrollView>
+
+            <Button
+                android:id="@+id/btnAddPrice"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Add Price &amp; Create Invoice"
+                android:backgroundTint="#22D3EE"
+                android:textColor="#020617"
+                android:textStyle="bold"
+                app:cornerRadius="0dp"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🪓 WOOD CALCULATOR INVOICE"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+                    <TextView android:id="@+id/invDate" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textColor="#000000" android:text="Date: "/>
+                    <TextView android:id="@+id/invTime" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textColor="#000000" android:text="Time: " android:gravity="end"/>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Seller Details" android:textStyle="bold" android:textColor="#000000"/>
+                        <TextView android:id="@+id/invSeller" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/border_rect" android:padding="8dp" android:textColor="#000000" android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+                    <View android:layout_width="12dp" android:layout_height="match_parent"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Customer Details" android:textStyle="bold" android:textColor="#000000"/>
+                        <TextView android:id="@+id/invCustomer" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/border_rect" android:padding="8dp" android:textColor="#000000" android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="#0F8B8D" android:padding="6dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="0.8" android:layout_height="wrap_content" android:text="S.No" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                    <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="length" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                    <TextView android:layout_width="0dp" android:layout_weight="1.5" android:layout_height="wrap_content" android:text="Roundness" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Qty" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                    <TextView android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="wrap_content" android:text="(Foot)³" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/invTableRows"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp">
+                    <View android:layout_width="0dp" android:layout_weight="3.5" android:layout_height="match_parent"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="2.2" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/border_rect">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total (Foot)³" android:textColor="#000000" android:textStyle="bold"/>
+                            <TextView android:id="@+id/invTotalVol" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
+                        </LinearLayout>
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Qty" android:textColor="#000000" android:textStyle="bold"/>
+                            <TextView android:id="@+id/invTotalQty" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
+                        </LinearLayout>
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Rate" android:textColor="#000000" android:textStyle="bold"/>
+                            <TextView android:id="@+id/invRate" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000"/>
+                        </LinearLayout>
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp" android:background="#E1C699">
+                            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Amount" android:textColor="#000000" android:textStyle="bold"/>
+                            <TextView android:id="@+id/invTotalAmount" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="end" android:textColor="#000000" android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnBackToCalc"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="32dp"
+                    android:text="← Back to Calculator"
+                    android:backgroundTint="#0F172A"/>
+            </LinearLayout>
+        </ScrollView>
+    </ViewFlipper>
+</LinearLayout>
