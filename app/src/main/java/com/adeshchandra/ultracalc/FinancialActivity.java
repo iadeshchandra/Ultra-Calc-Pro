@@ -15,17 +15,12 @@ public class FinancialActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            setContentView(R.layout.activity_financial);
-            history = new HistoryStore(getSharedPreferences("uc_prefs", MODE_PRIVATE));
-            mainContainer = findViewById(R.id.mainContainer);
-            findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-            buildToolBar();
-            showTool(0);
-        } catch (Exception e) {
-            Toast.makeText(this, "Error: Missing activity_financial.xml", Toast.LENGTH_LONG).show();
-            finish();
-        }
+        setContentView(R.layout.activity_financial);
+        history = new HistoryStore(getSharedPreferences("uc_prefs", MODE_PRIVATE));
+        mainContainer = findViewById(R.id.mainContainer);
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        buildToolBar();
+        showTool(0);
     }
 
     private void buildToolBar() {
@@ -57,126 +52,123 @@ public class FinancialActivity extends AppCompatActivity {
         }
     }
 
-    private void showError(String fileName) {
-        TextView err = new TextView(this);
-        err.setText("⚠️ Layout Error\nMissing or broken file: " + fileName);
-        err.setTextColor(0xFFFF1744);
-        err.setTextSize(16);
-        err.setPadding(40, 40, 40, 40);
-        mainContainer.addView(err);
-    }
-
     private void buildEMI() {
-        try {
-            View v = getLayoutInflater().inflate(R.layout.panel_emi, mainContainer, false); mainContainer.addView(v);
-            EditText etAmount=v.findViewById(R.id.etAmount), etRate=v.findViewById(R.id.etRate), etTenure=v.findViewById(R.id.etTenure);
-            TextView tvResult=v.findViewById(R.id.tvResult);
-            v.findViewById(R.id.btnCalc).setOnClickListener(b->{
-                try {
-                    double P=Double.parseDouble(etAmount.getText().toString());
-                    double r=Double.parseDouble(etRate.getText().toString())/100/12;
-                    int n=Integer.parseInt(etTenure.getText().toString());
-                    double emi=r==0?P/n:P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-                    double total=emi*n; double interest=total-P;
-                    tvResult.setText(String.format(Locale.US,"Monthly EMI: %.2f\nTotal Payment: %.2f\nTotal Interest: %.2f",emi,total,interest));
-                    history.add(String.format(Locale.US,"EMI P=%.0f r=%.1f%%",P,Double.parseDouble(etRate.getText().toString())),String.format(Locale.US,"EMI=%.2f",emi),"Financial");
-                } catch(Exception e){tvResult.setText("Enter valid values");}
-            });
-        } catch (Exception e) { showError("panel_emi.xml"); }
+        View v = getLayoutInflater().inflate(R.layout.panel_emi, mainContainer, false); mainContainer.addView(v);
+        EditText etAmount=v.findViewById(R.id.etAmount), etRate=v.findViewById(R.id.etRate), etTenure=v.findViewById(R.id.etTenure);
+        TextView tvResult=v.findViewById(R.id.tvResult);
+        v.findViewById(R.id.btnCalc).setOnClickListener(b->{
+            try {
+                double P=Double.parseDouble(etAmount.getText().toString());
+                double r=Double.parseDouble(etRate.getText().toString())/100/12;
+                int n=Integer.parseInt(etTenure.getText().toString());
+                double emi=r==0?P/n:P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+                double total=emi*n; double interest=total-P;
+                tvResult.setText(String.format(Locale.US,"Monthly EMI: %.2f\nTotal: %.2f\nInterest: %.2f",emi,total,interest));
+            } catch(Exception e){tvResult.setText("Enter valid values");}
+        });
     }
 
     private void buildGST() {
-        try {
-            View v = getLayoutInflater().inflate(R.layout.panel_gst, mainContainer, false); mainContainer.addView(v);
-            EditText etAmount=v.findViewById(R.id.etAmount), etRate=v.findViewById(R.id.etRate);
-            TextView tvResult=v.findViewById(R.id.tvResult);
-            RadioGroup rgMode=v.findViewById(R.id.rgMode);
-            v.findViewById(R.id.btnCalc).setOnClickListener(b->{
-                try {
-                    double amount=Double.parseDouble(etAmount.getText().toString());
-                    double gst=Double.parseDouble(etRate.getText().toString());
-                    boolean exclusive=((RadioButton)rgMode.getChildAt(0)).isChecked();
-                    double gstAmt,total,original;
-                    if(exclusive){gstAmt=amount*gst/100;total=amount+gstAmt;original=amount;}
-                    else{original=amount*100/(100+gst);gstAmt=amount-original;total=amount;}
-                    tvResult.setText(String.format(Locale.US,"Original: %.2f\nGST: %.2f\nTotal: %.2f",original,gstAmt,total));
-                } catch(Exception e){tvResult.setText("Enter valid values");}
-            });
-        } catch (Exception e) { showError("panel_gst.xml"); }
+        View v = getLayoutInflater().inflate(R.layout.panel_gst, mainContainer, false); mainContainer.addView(v);
+        EditText etAmount=v.findViewById(R.id.etAmount), etRate=v.findViewById(R.id.etRate);
+        TextView tvResult=v.findViewById(R.id.tvResult);
+        RadioGroup rgMode=v.findViewById(R.id.rgMode);
+        v.findViewById(R.id.btnCalc).setOnClickListener(b->{
+            try {
+                double amount=Double.parseDouble(etAmount.getText().toString());
+                double gst=Double.parseDouble(etRate.getText().toString());
+                boolean exclusive=((RadioButton)rgMode.getChildAt(0)).isChecked();
+                double gstAmt,total,original;
+                if(exclusive){gstAmt=amount*gst/100;total=amount+gstAmt;original=amount;}
+                else{original=amount*100/(100+gst);gstAmt=amount-original;total=amount;}
+                tvResult.setText(String.format(Locale.US,"Original: %.2f\nGST: %.2f\nTotal: %.2f",original,gstAmt,total));
+            } catch(Exception e){tvResult.setText("Enter valid values");}
+        });
     }
 
     private void buildDiscount() {
-        try {
-            View v = getLayoutInflater().inflate(R.layout.panel_discount, mainContainer, false); mainContainer.addView(v);
-            EditText etPrice=v.findViewById(R.id.etPrice), etDisc=v.findViewById(R.id.etDisc);
-            TextView tvResult=v.findViewById(R.id.tvResult);
-            v.findViewById(R.id.btnCalc).setOnClickListener(b->{
-                try {
-                    double price=Double.parseDouble(etPrice.getText().toString());
-                    double disc=Double.parseDouble(etDisc.getText().toString());
-                    double discAmt=price*disc/100; double final_=price-discAmt;
-                    tvResult.setText(String.format(Locale.US,"Discount: -%.2f\nFinal Price: %.2f",discAmt,final_));
-                } catch(Exception e){tvResult.setText("Enter valid values");}
-            });
-        } catch (Exception e) { showError("panel_discount.xml"); }
+        View v = getLayoutInflater().inflate(R.layout.panel_discount, mainContainer, false); mainContainer.addView(v);
+        EditText etPrice=v.findViewById(R.id.etPrice), etDisc=v.findViewById(R.id.etDisc);
+        TextView tvResult=v.findViewById(R.id.tvResult);
+        v.findViewById(R.id.btnCalc).setOnClickListener(b->{
+            try {
+                double price=Double.parseDouble(etPrice.getText().toString());
+                double disc=Double.parseDouble(etDisc.getText().toString());
+                double discAmt=price*disc/100; double final_=price-discAmt;
+                tvResult.setText(String.format(Locale.US,"Discount: -%.2f\nFinal: %.2f",discAmt,final_));
+            } catch(Exception e){tvResult.setText("Enter valid values");}
+        });
     }
 
     private void buildTip() {
-        try {
-            View v = getLayoutInflater().inflate(R.layout.panel_tip, mainContainer, false); mainContainer.addView(v);
-            EditText etBill=v.findViewById(R.id.etBill), etTip=v.findViewById(R.id.etTip), etPeople=v.findViewById(R.id.etPeople);
-            TextView tvResult=v.findViewById(R.id.tvResult);
-            v.findViewById(R.id.btnCalc).setOnClickListener(b->{
-                try {
-                    double bill=Double.parseDouble(etBill.getText().toString());
-                    double tip=Double.parseDouble(etTip.getText().toString());
-                    int people=Integer.parseInt(etPeople.getText().toString());
-                    double tipAmt=bill*tip/100; double total=bill+tipAmt; double perPerson=total/people;
-                    tvResult.setText(String.format(Locale.US,"Tip: %.2f\nTotal: %.2f\nPer Person: %.2f",tipAmt,total,perPerson));
-                } catch(Exception e){tvResult.setText("Enter valid values");}
-            });
-        } catch (Exception e) { showError("panel_tip.xml"); }
+        View v = getLayoutInflater().inflate(R.layout.panel_tip, mainContainer, false); mainContainer.addView(v);
+        EditText etBill=v.findViewById(R.id.etBill), etTip=v.findViewById(R.id.etTip), etPeople=v.findViewById(R.id.etPeople);
+        TextView tvResult=v.findViewById(R.id.tvResult);
+        v.findViewById(R.id.btnCalc).setOnClickListener(b->{
+            try {
+                double bill=Double.parseDouble(etBill.getText().toString());
+                double tip=Double.parseDouble(etTip.getText().toString());
+                int people=Integer.parseInt(etPeople.getText().toString());
+                double tipAmt=bill*tip/100; double total=bill+tipAmt;
+                tvResult.setText(String.format(Locale.US,"Tip: %.2f\nTotal: %.2f\nPer Person: %.2f",tipAmt,total,total/people));
+            } catch(Exception e){tvResult.setText("Enter valid values");}
+        });
     }
 
     private void buildROI() {
-        try {
-            View v = getLayoutInflater().inflate(R.layout.panel_roi, mainContainer, false); mainContainer.addView(v);
-            EditText etInvest=v.findViewById(R.id.etInvest), etReturn=v.findViewById(R.id.etReturn), etYears=v.findViewById(R.id.etYears);
-            TextView tvResult=v.findViewById(R.id.tvResult);
-            v.findViewById(R.id.btnCalc).setOnClickListener(b->{
-                try {
-                    double invest=Double.parseDouble(etInvest.getText().toString());
-                    double ret=Double.parseDouble(etReturn.getText().toString());
-                    double years=Double.parseDouble(etYears.getText().toString());
-                    double roi=(ret-invest)/invest*100; double annRoi=(Math.pow(ret/invest,1.0/years)-1)*100;
-                    tvResult.setText(String.format(Locale.US,"Total ROI: %.2f%%\nAnnual ROI: %.2f%%",roi,annRoi));
-                } catch(Exception e){tvResult.setText("Enter valid values");}
-            });
-        } catch (Exception e) { showError("panel_roi.xml"); }
+        View v = getLayoutInflater().inflate(R.layout.panel_roi, mainContainer, false); mainContainer.addView(v);
+        EditText etInvest=v.findViewById(R.id.etInvest), etReturn=v.findViewById(R.id.etReturn), etYears=v.findViewById(R.id.etYears);
+        TextView tvResult=v.findViewById(R.id.tvResult);
+        v.findViewById(R.id.btnCalc).setOnClickListener(b->{
+            try {
+                double invest=Double.parseDouble(etInvest.getText().toString());
+                double ret=Double.parseDouble(etReturn.getText().toString());
+                double years=Double.parseDouble(etYears.getText().toString());
+                double roi=(ret-invest)/invest*100; double annRoi=(Math.pow(ret/invest,1.0/years)-1)*100;
+                tvResult.setText(String.format(Locale.US,"ROI: %.2f%%\nAnnual: %.2f%%",roi,annRoi));
+            } catch(Exception e){tvResult.setText("Enter valid values");}
+        });
     }
 
     private void buildSIP() {
-        try {
-            View v = getLayoutInflater().inflate(R.layout.panel_sip, mainContainer, false); mainContainer.addView(v);
-            EditText etMonthly=v.findViewById(R.id.etMonthly), etRate=v.findViewById(R.id.etRate), etYears=v.findViewById(R.id.etYears);
-            TextView tvResult=v.findViewById(R.id.tvResult);
-            v.findViewById(R.id.btnCalc).setOnClickListener(b->{
-                try {
-                    double P=Double.parseDouble(etMonthly.getText().toString());
-                    double r=Double.parseDouble(etRate.getText().toString())/100/12;
-                    int n=Integer.parseInt(etYears.getText().toString())*12;
-                    double fv=P*(Math.pow(1+r,n)-1)/r*(1+r); double invested=P*n;
-                    tvResult.setText(String.format(Locale.US,"Future Value: %.2f\nTotal Invested: %.2f",fv,invested));
-                } catch(Exception e){tvResult.setText("Enter valid values");}
-            });
-        } catch (Exception e) { showError("panel_sip.xml"); }
+        View v = getLayoutInflater().inflate(R.layout.panel_sip, mainContainer, false); mainContainer.addView(v);
+        EditText etMonthly=v.findViewById(R.id.etMonthly), etRate=v.findViewById(R.id.etRate), etYears=v.findViewById(R.id.etYears);
+        TextView tvResult=v.findViewById(R.id.tvResult);
+        v.findViewById(R.id.btnCalc).setOnClickListener(b->{
+            try {
+                double P=Double.parseDouble(etMonthly.getText().toString());
+                double r=Double.parseDouble(etRate.getText().toString())/100/12;
+                int n=Integer.parseInt(etYears.getText().toString())*12;
+                double fv=P*(Math.pow(1+r,n)-1)/r*(1+r);
+                tvResult.setText(String.format(Locale.US,"Future Value: %.2f",fv));
+            } catch(Exception e){tvResult.setText("Enter valid values");}
+        });
     }
 
     private void buildProfit() {
-        try {
-            View v = getLayoutInflater().inflate(R.layout.panel_profit, mainContainer, false); mainContainer.addView(v);
-            EditText etCost=v.findViewById(R.id.etCost), etSell=v.findViewById(R.id.etSell);
-            TextView tvResult=v.findViewById(R.id.tvResult);
-            v.findViewById(R.id.btnCalc).setOnClickListener(b->{
-                try {
-                    double
+        View v = getLayoutInflater().inflate(R.layout.panel_profit, mainContainer, false); mainContainer.addView(v);
+        EditText etCost=v.findViewById(R.id.etCost), etSell=v.findViewById(R.id.etSell);
+        TextView tvResult=v.findViewById(R.id.tvResult);
+        v.findViewById(R.id.btnCalc).setOnClickListener(b->{
+            try {
+                double cost=Double.parseDouble(etCost.getText().toString());
+                double sell=Double.parseDouble(etSell.getText().toString());
+                double pl=sell-cost;
+                tvResult.setText(String.format(Locale.US,"%s: %.2f",pl>=0?"PROFIT":"LOSS",Math.abs(pl)));
+            } catch(Exception e){tvResult.setText("Enter valid values");}
+        });
+    }
+
+    private void buildPercentage() {
+        View v = getLayoutInflater().inflate(R.layout.panel_percentage, mainContainer, false); mainContainer.addView(v);
+        EditText etNum=v.findViewById(R.id.etNum), etOf=v.findViewById(R.id.etOf);
+        TextView tvResult=v.findViewById(R.id.tvResult);
+        v.findViewById(R.id.btnCalc).setOnClickListener(b->{
+            try {
+                double pct=Double.parseDouble(etNum.getText().toString());
+                double of=Double.parseDouble(etOf.getText().toString());
+                tvResult.setText(String.format(Locale.US,"Result: %.4f",pct*of/100));
+            } catch(Exception e){tvResult.setText("Enter valid values");}
+        });
+    }
+}
