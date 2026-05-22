@@ -36,6 +36,7 @@ public class WoodActivity extends AppCompatActivity {
     private Spinner spinLen, spinP2, spinP3;
     private LinearLayout containerParam3, tableRowsContainer, invoicePrintArea;
     private double currentRate = 0.0;
+    private String currentCustomerName = "Unknown_Customer"; // Added to capture name for PDF saving
 
     private final String[] impUnits = {"ft", "in"};
     private final String[] metUnits = {"m", "cm"};
@@ -64,27 +65,28 @@ public class WoodActivity extends AppCompatActivity {
         findViewById(R.id.btnBackToCalcFromInvoice).setOnClickListener(v -> viewFlipper.setDisplayedChild(1));
         findViewById(R.id.btnSharePdf).setOnClickListener(v -> exportAndSharePdf());
 
-        // New UI Action Listeners
+        // New UI Action Listeners dynamically routing to features
         findViewById(R.id.btnHelp).setOnClickListener(v -> startActivity(new Intent(this, ManualActivity.class)));
         findViewById(R.id.btnLang).setOnClickListener(v -> Toast.makeText(this, "Language Switcher Coming Soon!", Toast.LENGTH_SHORT).show());
-        findViewById(R.id.btnAllSavedRecords).setOnClickListener(v -> Toast.makeText(this, "Files saved in Downloads > Wood calculator", Toast.LENGTH_LONG).show());
+        findViewById(R.id.btnAllSavedRecords).setOnClickListener(v -> startActivity(new Intent(this, InvoiceHistoryActivity.class)));
 
-        // Bottom Navigation
+        // Bottom Navigation handling
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_bot_help) { startActivity(new Intent(this, ManualActivity.class)); return true; }
-            else if (id == R.id.nav_bot_invoice) { Toast.makeText(this, "Invoices in Downloads folder.", Toast.LENGTH_SHORT).show(); return true; }
-            else if (id == R.id.nav_bot_profile) { Toast.makeText(this, "Profile Settings Comming Soon!", Toast.LENGTH_SHORT).show(); return true; }
-            return true;
-        });
+        if (bottomNav != null) {
+            bottomNav.setOnItemSelectedListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.nav_bot_help) { startActivity(new Intent(this, ManualActivity.class)); return true; }
+                else if (id == R.id.nav_bot_invoice) { startActivity(new Intent(this, InvoiceHistoryActivity.class)); return true; }
+                else if (id == R.id.nav_bot_profile) { startActivity(new Intent(this, LoginActivity.class)); return true; }
+                return true;
+            });
+        }
 
         setupDashboardGrid();
         setupCalculatorPad();
     }
 
     private void setupDashboardGrid() {
-        // Only using the 4 IDs that actually exist in activity_wood.xml
         int[] cardIds = {R.id.cardRoundImp, R.id.cardSizeImp, R.id.cardRoundMet, R.id.cardSizeMet};
         for (int i = 0; i < cardIds.length; i++) {
             final int mode = i;
@@ -98,7 +100,7 @@ public class WoodActivity extends AppCompatActivity {
         lblParam2 = findViewById(R.id.lblParam2); lblParam3 = findViewById(R.id.lblParam3);
         containerParam3 = findViewById(R.id.containerParam3);
 
-        boolean isImp = mode < 2; // Adjusted since we have 4 modes here (0,1 for imperial. 2,3 for metric)
+        boolean isImp = mode < 2; 
         ArrayAdapter<String> adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, isImp ? impUnits : metUnits);
         adapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinLen.setAdapter(adapt); spinP2.setAdapter(adapt); spinP3.setAdapter(adapt);
@@ -130,13 +132,13 @@ public class WoodActivity extends AppCompatActivity {
 
     private double calculateNormalizedVolume(double l, String uL, double p2, String uP2, double p3, String uP3, int mode) {
         double normL = l, normP2 = p2, normP3 = p3;
-        if (mode < 2) { // Imperial
+        if (mode < 2) { 
             if (uL.equals("in")) normL = l / 12.0;
             if (uP2.equals("ft")) normP2 = p2 * 12.0;
             if (uP3.equals("ft")) normP3 = p3 * 12.0;
             if (mode == 0) return ((normP2 / 4.0) * (normP2 / 4.0) * normL) / 144.0;
             if (mode == 1) return (normL * normP2 * normP3) / 144.0;
-        } else { // Metric
+        } else { 
             if (uL.equals("cm")) normL = l / 100.0;
             if (uP2.equals("m")) normP2 = p2 * 100.0;
             if (uP3.equals("m")) normP3 = p3 * 100.0;
@@ -189,18 +191,18 @@ public class WoodActivity extends AppCompatActivity {
         EditText etEditP2 = dialogView.findViewById(R.id.etEditParam2);
         EditText etEditQty = dialogView.findViewById(R.id.etEditQty);
         Spinner eSpinL = dialogView.findViewById(R.id.editSpinLen), eSpinP2 = dialogView.findViewById(R.id.editSpinP2);
-        
+
         TextView lblEditP2 = dialogView.findViewById(R.id.lblEditParam2);
         lblEditP2.setText(lblParam2.getText().toString());
-        
+
         ArrayAdapter<String> adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, currentMode < 2 ? impUnits : metUnits);
         adapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         eSpinL.setAdapter(adapt); eSpinP2.setAdapter(adapt);
-        
+
         etEditLen.setText(String.valueOf(item.length)); etEditP2.setText(String.valueOf(item.param2)); etEditQty.setText(String.valueOf(item.qty));
         eSpinL.setSelection(item.uLen.equals("ft") || item.uLen.equals("m") ? 0 : 1);
         eSpinP2.setSelection(item.uP2.equals("ft") || item.uP2.equals("m") ? 0 : 1);
-        
+
         AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
         dialogView.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
         dialogView.findViewById(R.id.btnDeleteRow).setOnClickListener(v -> { woodList.remove(index); refreshTable(); dialog.dismiss(); });
@@ -222,7 +224,7 @@ public class WoodActivity extends AppCompatActivity {
     private void showInvoiceDialog() {
         if (woodList.isEmpty()) { Toast.makeText(this, "Add logs first!", Toast.LENGTH_SHORT).show(); return; }
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_price, null);
-        new AlertDialog.Builder(this).setView(dialogView).setPositiveButton("Create Invoice", (dialog, which) -> {
+        new AlertDialog.Builder(this).setView(dialogView).setPositiveButton("Create", (dialog, which) -> {
             EditText etRate = dialogView.findViewById(R.id.etRate);
             EditText etSellerName = dialogView.findViewById(R.id.etSellerName);
             EditText etSellerPhone = dialogView.findViewById(R.id.etSellerPhone);
@@ -230,16 +232,21 @@ public class WoodActivity extends AppCompatActivity {
             EditText etCustomerPhone = dialogView.findViewById(R.id.etCustomerPhone);
             try {
                 currentRate = Double.parseDouble(etRate.getText().toString());
+                
+                // Ensure customer name is formatted safely for file saving
+                String custName = etCustomerName.getText().toString().trim();
+                currentCustomerName = custName.isEmpty() ? "Unknown_Customer" : custName.replaceAll("[^a-zA-Z0-9]", "_");
+                
                 generateInvoice(etSellerName.getText().toString() + "\n" + etSellerPhone.getText().toString(), etCustomerName.getText().toString() + "\n" + etCustomerPhone.getText().toString());
             } catch (Exception e) { Toast.makeText(this, "Rate is required", Toast.LENGTH_SHORT).show(); }
-        }).setNegativeButton("Cancel", null).show();
+        }).show();
     }
 
     private void generateInvoice(String seller, String customer) {
         SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm:ss a", Locale.US);
         Date now = new Date();
-        
+
         ((TextView) findViewById(R.id.invDate)).setText("Date : " + sdfDate.format(now));
         ((TextView) findViewById(R.id.invTime)).setText("Time : " + sdfTime.format(now));
         ((TextView) findViewById(R.id.invSeller)).setText(seller); 
@@ -248,7 +255,7 @@ public class WoodActivity extends AppCompatActivity {
         LinearLayout invTableRows = findViewById(R.id.invTableRows); 
         invTableRows.removeAllViews();
         double sumVol = 0; int sumQty = 0;
-        
+
         for (WoodItem item : woodList) {
             View row = getLayoutInflater().inflate(R.layout.row_invoice_master, invTableRows, false);
             ((TextView) row.findViewById(R.id.colSno)).setText(String.valueOf(item.sNo));
@@ -260,12 +267,12 @@ public class WoodActivity extends AppCompatActivity {
             sumVol += item.volume; 
             sumQty += item.qty;
         }
-        
+
         ((TextView) findViewById(R.id.invTotalVol)).setText(String.format(Locale.US, "%.3f", sumVol));
         ((TextView) findViewById(R.id.invTotalQty)).setText(String.valueOf(sumQty));
         ((TextView) findViewById(R.id.invRate)).setText(String.valueOf(currentRate));
         ((TextView) findViewById(R.id.invTotalAmount)).setText(String.format(Locale.US, "%.0f ৳", sumVol * currentRate));
-        
+
         viewFlipper.setDisplayedChild(2);
     }
 
@@ -277,17 +284,22 @@ public class WoodActivity extends AppCompatActivity {
         PdfDocument.Page page = pdf.startPage(new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create());
         page.getCanvas().drawBitmap(bitmap, 0, 0, null); 
         pdf.finishPage(page);
-        
+
         File cachePath = new File(getCacheDir(), "invoices"); 
         if (!cachePath.exists()) cachePath.mkdirs();
-        File pdfFile = new File(cachePath, "Wood_Invoice_" + System.currentTimeMillis() + ".pdf");
         
+        // Dynamically name the file based on the Customer and Timestamp
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        File pdfFile = new File(cachePath, "Invoice_" + currentCustomerName + "_" + timeStamp + ".pdf");
+
         try {
             FileOutputStream fos = new FileOutputStream(pdfFile); 
             pdf.writeTo(fos); 
             pdf.close(); 
             fos.close();
-            
+
+            Toast.makeText(this, "Invoice Saved to History!", Toast.LENGTH_LONG).show();
+
             Intent shareIntent = new Intent(Intent.ACTION_SEND); 
             shareIntent.setType("application/pdf");
             shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, getPackageName() + ".provider", pdfFile));
