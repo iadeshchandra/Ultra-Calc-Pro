@@ -1,6 +1,7 @@
 package com.adeshchandra.ultracalc;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class InvoiceHistoryActivity extends AppCompatActivity {
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,8 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
                 name.setText(file.getName().replace(".pdf", ""));
                 name.setTextSize(16);
                 name.setTextColor(0xFF0F172A);
-                name.setTextStyle(1); // Bold
+                // CORRECTED: Android requires setTypeface to make text bold programmatically
+                name.setTypeface(null, Typeface.BOLD); 
                 
                 TextView date = new TextView(this);
                 date.setText("Saved: " + new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US).format(new Date(file.lastModified())));
@@ -78,13 +81,22 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
                 btnParams.setMargins(16, 0, 0, 0);
                 btnDel.setLayoutParams(btnParams);
                 btnDel.setOnClickListener(v -> {
-                    new AlertDialog.Builder(this).setTitle("Delete Invoice").setMessage("Are you sure?").setPositiveButton("Yes", (d,w) -> {
-                        file.delete(); loadInvoices();
-                    }).setNegativeButton("No", null).show();
+                    new AlertDialog.Builder(this)
+                        .setTitle("Delete Invoice")
+                        .setMessage("Are you sure?")
+                        .setPositiveButton("Yes", (d,w) -> {
+                            file.delete(); 
+                            loadInvoices();
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
                 });
 
-                btnRow.addView(btnOpen); btnRow.addView(btnDel);
-                row.addView(name); row.addView(date); row.addView(btnRow);
+                btnRow.addView(btnOpen); 
+                btnRow.addView(btnDel);
+                row.addView(name); 
+                row.addView(date); 
+                row.addView(btnRow);
                 container.addView(row);
             }
         }
@@ -95,6 +107,10 @@ public class InvoiceHistoryActivity extends AppCompatActivity {
         Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
         intent.setDataAndType(uri, "application/pdf");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        try { startActivity(intent); } catch (Exception e) { Toast.makeText(this, "No PDF viewer installed!", Toast.LENGTH_SHORT).show(); }
+        try { 
+            startActivity(intent); 
+        } catch (Exception e) { 
+            Toast.makeText(this, "No PDF viewer installed!", Toast.LENGTH_SHORT).show(); 
+        }
     }
 }
