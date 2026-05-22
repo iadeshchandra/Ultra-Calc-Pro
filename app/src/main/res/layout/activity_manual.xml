@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="#FFFFFF">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="58dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="#00897B">
+        <TextView android:id="@+id/btnBackManual" android:layout_width="48dp" android:layout_height="48dp" android:text="‹" android:textSize="32sp" android:gravity="center" android:textColor="#FFFFFF" android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="User manual" android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="USER MANUAL" android:textSize="22sp" android:textStyle="bold" android:gravity="center" android:textColor="#000000" android:layout_marginBottom="16dp"/>
+            
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="By using this user guide you can very easily measure round lumber and size lumber. For this, follow the steps given below.\n\nFirst of all, you have to keep in mind what kind of wood you have, and in which unit it is measured (feet, inches, meters, centimeters)." android:textColor="#000000" android:textSize="14sp" android:layout_marginBottom="16dp"/>
+            
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Note :- One (feet)³ = one kb , foot = ft, inch = in, centimeter = cm, meter = m" android:textColor="#D32F2F" android:textSize="13sp" android:textStyle="bold" android:layout_marginBottom="16dp"/>
+            
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="* Measurement of round wood :-" android:textColor="#1565C0" android:textStyle="bold" android:textSize="16sp" android:layout_marginBottom="8dp"/>
+            
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1. If you have the measurement in feet and inches, select the 'Foot, Inch' card on the home screen.\n\n2. Enter the Length. Use the drop-down to switch between Feet (ft) and Inches (in) if needed.\n\n3. Select the measure of Roundness using the drop-down menu.\n\n4. Enter the Quantity and tap ADD." android:textColor="#000000" android:textSize="14sp" android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
