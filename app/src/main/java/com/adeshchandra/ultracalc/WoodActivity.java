@@ -30,13 +30,13 @@ public class WoodActivity extends AppCompatActivity {
     private ViewFlipper viewFlipper;
     private int currentMode = 0; 
     private ArrayList<WoodItem> woodList = new ArrayList<>();
-    
+
     private TextView tvCalcTitle, tvTotalLogs, tvTotalVolume, lblParam2, lblParam3;
     private EditText etLength, etParam2, etParam3, etQty;
     private Spinner spinLen, spinP2, spinP3;
     private LinearLayout containerParam3, tableRowsContainer, invoicePrintArea;
     private double currentRate = 0.0;
-    
+
     private final String[] impUnits = {"ft", "in"};
     private final String[] metUnits = {"m", "cm"};
 
@@ -45,7 +45,7 @@ public class WoodActivity extends AppCompatActivity {
         double length, param2, param3, volume; 
         int qty;
         String uLen, uP2, uP3;
-        
+
         WoodItem(int s, double l, String ul, double p2, String up2, double p3, String up3, int q, double v) { 
             sNo=s; length=l; uLen=ul; param2=p2; uP2=up2; param3=p3; uP3=up3; qty=q; volume=v; 
         }
@@ -58,13 +58,13 @@ public class WoodActivity extends AppCompatActivity {
 
         viewFlipper = findViewById(R.id.viewFlipper);
         invoicePrintArea = findViewById(R.id.invoicePrintArea);
-        
+
         findViewById(R.id.btnBackDashboard).setOnClickListener(v -> finish());
         findViewById(R.id.btnBackCalc).setOnClickListener(v -> { woodList.clear(); refreshTable(); viewFlipper.setDisplayedChild(0); });
         findViewById(R.id.btnBackToCalcFromInvoice).setOnClickListener(v -> viewFlipper.setDisplayedChild(1));
         findViewById(R.id.btnSharePdf).setOnClickListener(v -> exportAndSharePdf());
 
-        // New UI Action Listeners
+        // UI Action Listeners
         findViewById(R.id.btnHelp).setOnClickListener(v -> startActivity(new Intent(this, ManualActivity.class)));
         findViewById(R.id.btnLang).setOnClickListener(v -> Toast.makeText(this, "Language Switcher Coming Soon!", Toast.LENGTH_SHORT).show());
         findViewById(R.id.btnAllSavedRecords).setOnClickListener(v -> Toast.makeText(this, "Files saved in Downloads > Wood calculator", Toast.LENGTH_LONG).show());
@@ -75,7 +75,7 @@ public class WoodActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.nav_bot_help) { startActivity(new Intent(this, ManualActivity.class)); return true; }
             else if (id == R.id.nav_bot_invoice) { Toast.makeText(this, "Invoices in Downloads folder.", Toast.LENGTH_SHORT).show(); return true; }
-            else if (id == R.id.nav_bot_profile) { Toast.makeText(this, "Profile Settings Comming Soon!", Toast.LENGTH_SHORT).show(); return true; }
+            else if (id == R.id.nav_bot_profile) { Toast.makeText(this, "Profile Settings Coming Soon!", Toast.LENGTH_SHORT).show(); return true; }
             return true;
         });
 
@@ -84,7 +84,8 @@ public class WoodActivity extends AppCompatActivity {
     }
 
     private void setupDashboardGrid() {
-        int[] cardIds = {R.id.cardRoundImp, R.id.cardSizeImp, R.id.cardDoorImp, R.id.cardRoundMet, R.id.cardSizeMet, R.id.cardDoorMet};
+        // Corrected IDs to match your actual activity_wood.xml layout
+        int[] cardIds = {R.id.cardRoundImp, R.id.cardSizeImp, R.id.cardRoundMet, R.id.cardSizeMet, R.id.cardDoorImp, R.id.cardDoorMet};
         for (int i = 0; i < cardIds.length; i++) {
             final int mode = i;
             findViewById(cardIds[i]).setOnClickListener(v -> openCalculator(mode));
@@ -96,7 +97,7 @@ public class WoodActivity extends AppCompatActivity {
         tvCalcTitle = findViewById(R.id.tvCalcTitle);
         lblParam2 = findViewById(R.id.lblParam2); lblParam3 = findViewById(R.id.lblParam3);
         containerParam3 = findViewById(R.id.containerParam3);
-        
+
         boolean isImp = mode < 3;
         ArrayAdapter<String> adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, isImp ? impUnits : metUnits);
         adapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -173,9 +174,8 @@ public class WoodActivity extends AppCompatActivity {
         double sumVol = 0; int sumQty = 0;
         for (int i = 0; i < woodList.size(); i++) {
             WoodItem item = woodList.get(i);
-            item.sNo = i + 1; 
             View row = getLayoutInflater().inflate(R.layout.row_wood_master, tableRowsContainer, false);
-            ((TextView) row.findViewById(R.id.colSno)).setText(String.valueOf(item.sNo));
+            ((TextView) row.findViewById(R.id.colSno)).setText(String.valueOf(i + 1));
             ((TextView) row.findViewById(R.id.colLength)).setText(item.length + " " + item.uLen);
             ((TextView) row.findViewById(R.id.colParam2)).setText(item.param2 + " " + item.uP2);
             ((TextView) row.findViewById(R.id.colQty)).setText(String.valueOf(item.qty));
@@ -195,13 +195,17 @@ public class WoodActivity extends AppCompatActivity {
         EditText etEditP2 = dialogView.findViewById(R.id.etEditParam2);
         EditText etEditQty = dialogView.findViewById(R.id.etEditQty);
         Spinner eSpinL = dialogView.findViewById(R.id.editSpinLen), eSpinP2 = dialogView.findViewById(R.id.editSpinP2);
-        dialogView.findViewById(R.id.lblEditParam2).setText(lblParam2.getText().toString());
+        
+        TextView lblEditP2 = dialogView.findViewById(R.id.lblEditParam2);
+        lblEditP2.setText(lblParam2.getText().toString());
+        
         ArrayAdapter<String> adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, currentMode < 3 ? impUnits : metUnits);
         adapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         eSpinL.setAdapter(adapt); eSpinP2.setAdapter(adapt);
         etEditLen.setText(String.valueOf(item.length)); etEditP2.setText(String.valueOf(item.param2)); etEditQty.setText(String.valueOf(item.qty));
         eSpinL.setSelection(item.uLen.equals("ft") || item.uLen.equals("m") ? 0 : 1);
         eSpinP2.setSelection(item.uP2.equals("ft") || item.uP2.equals("m") ? 0 : 1);
+        
         AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
         dialogView.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
         dialogView.findViewById(R.id.btnDeleteRow).setOnClickListener(v -> { woodList.remove(index); refreshTable(); dialog.dismiss(); });
