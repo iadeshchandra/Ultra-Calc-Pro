@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" 
+    android:orientation="vertical" android:padding="32dp" android:gravity="center" android:background="#F8FAFC">
+    
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="👤" android:textSize="72sp" android:layout_marginBottom="16dp"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Create Profile" android:textSize="28sp" android:textStyle="bold" android:textColor="#0F172A" android:layout_marginBottom="8dp"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Syncing is optional. You can use the app 100% offline." android:textSize="14sp" android:textColor="#64748B" android:gravity="center" android:layout_marginBottom="32dp"/>
+    
+    <EditText android:id="@+id/etEmail" android:layout_width="match_parent" android:layout_height="55dp" android:hint="Email Address" android:inputType="textEmailAddress" android:background="@android:drawable/edit_text" android:paddingHorizontal="16dp" android:layout_marginBottom="16dp"/>
+    <EditText android:id="@+id/etPass" android:layout_width="match_parent" android:layout_height="55dp" android:hint="Password" android:inputType="textPassword" android:background="@android:drawable/edit_text" android:paddingHorizontal="16dp" android:layout_marginBottom="32dp"/>
+    
+    <Button android:id="@+id/btnLogin" android:layout_width="match_parent" android:layout_height="55dp" android:text="LOGIN / CREATE" android:backgroundTint="#00897B" android:textColor="#FFFFFF" android:textStyle="bold" android:layout_marginBottom="16dp"/>
+    <Button android:id="@+id/btnSkip" android:layout_width="match_parent" android:layout_height="55dp" android:text="SKIP (CONTINUE OFFLINE)" android:backgroundTint="#E2E8F0" android:textColor="#0F172A" android:textStyle="bold"/>
+</LinearLayout>
