@@ -27,19 +27,15 @@ import java.util.Locale;
 public class WoodActivity extends AppCompatActivity {
 
     private ViewFlipper viewFlipper;
-    
-    // State Tracking
     private int currentMode = 0; 
     private ArrayList<WoodItem> woodList = new ArrayList<>();
     
-    // Calculator Views
     private TextView tvCalcTitle, tvTotalLogs, tvTotalVolume;
     private TextView lblParam2, lblParam3;
     private EditText etLength, etParam2, etParam3, etQty;
     private LinearLayout containerParam3;
     private LinearLayout tableRowsContainer;
     
-    // Invoice Variables
     private double currentRate = 0.0;
     private LinearLayout invoicePrintArea;
 
@@ -58,16 +54,11 @@ public class WoodActivity extends AppCompatActivity {
         viewFlipper = findViewById(R.id.viewFlipper);
         invoicePrintArea = findViewById(R.id.invoicePrintArea);
         
-        // Navigation Setup
         findViewById(R.id.btnBackDashboard).setOnClickListener(v -> finish());
         findViewById(R.id.btnBackCalc).setOnClickListener(v -> {
-            woodList.clear();
-            refreshTable();
-            viewFlipper.setDisplayedChild(0);
+            woodList.clear(); refreshTable(); viewFlipper.setDisplayedChild(0);
         });
         findViewById(R.id.btnBackToCalcFromInvoice).setOnClickListener(v -> viewFlipper.setDisplayedChild(1));
-
-        // Setup the PDF Share Listener
         findViewById(R.id.btnSharePdf).setOnClickListener(v -> exportAndSharePdf());
 
         setupDashboardGrid();
@@ -75,8 +66,7 @@ public class WoodActivity extends AppCompatActivity {
     }
 
     private void setupDashboardGrid() {
-        int[] cardIds = {R.id.cardRoundImp, R.id.cardSizeImp, R.id.cardDoorImp, 
-                         R.id.cardRoundMet, R.id.cardSizeMet, R.id.cardDoorMet};
+        int[] cardIds = {R.id.cardRoundImp, R.id.cardSizeImp, R.id.cardDoorImp, R.id.cardRoundMet, R.id.cardSizeMet, R.id.cardDoorMet};
         for (int i = 0; i < cardIds.length; i++) {
             final int mode = i;
             findViewById(cardIds[i]).setOnClickListener(v -> openCalculator(mode));
@@ -84,16 +74,12 @@ public class WoodActivity extends AppCompatActivity {
     }
 
     private void openCalculator(int mode) {
-        currentMode = mode;
-        woodList.clear();
-        refreshTable();
-        
+        currentMode = mode; woodList.clear(); refreshTable();
         tvCalcTitle = findViewById(R.id.tvCalcTitle);
         lblParam2 = findViewById(R.id.lblParam2);
         lblParam3 = findViewById(R.id.lblParam3);
         containerParam3 = findViewById(R.id.containerParam3);
         
-        // Configure UI dynamically based on selection
         if (mode == 0 || mode == 3) {
             tvCalcTitle.setText(mode == 0 ? "Round Wood (Foot/Inch)" : "Round Wood (Meter/cm)");
             lblParam2.setText(mode == 0 ? "Roundness (in)" : "Roundness (cm)");
@@ -108,30 +94,27 @@ public class WoodActivity extends AppCompatActivity {
             lblParam2.setText(mode == 2 ? "Width (in)" : "Width (cm)");
             containerParam3.setVisibility(View.GONE);
         }
-        
         viewFlipper.setDisplayedChild(1);
     }
 
     private void setupCalculatorPad() {
-        tvTotalLogs = findViewById(R.id.tvTotalLogs);
-        tvTotalVolume = findViewById(R.id.tvTotalVolume);
+        tvTotalLogs = findViewById(R.id.tvTotalLogs); tvTotalVolume = findViewById(R.id.tvTotalVolume);
         tableRowsContainer = findViewById(R.id.tableRowsContainer);
-        
-        etLength = findViewById(R.id.etLength);
-        etParam2 = findViewById(R.id.etParam2);
-        etParam3 = findViewById(R.id.etParam3);
-        etQty = findViewById(R.id.etQty);
+        etLength = findViewById(R.id.etLength); etParam2 = findViewById(R.id.etParam2);
+        etParam3 = findViewById(R.id.etParam3); etQty = findViewById(R.id.etQty);
 
         findViewById(R.id.btnAdd).setOnClickListener(v -> calculateAndAdd());
-        
-        findViewById(R.id.btnDelete).setOnClickListener(v -> {
-            if (!woodList.isEmpty()) {
-                woodList.remove(woodList.size() - 1);
-                refreshTable();
-            }
-        });
-
         findViewById(R.id.btnAddPrice).setOnClickListener(v -> showInvoiceDialog());
+    }
+
+    private double calculateVolumeFormula(double l, double p2, double p3, int mode) {
+        if (mode == 0) return ((p2 / 4.0) * (p2 / 4.0) * l) / 144.0;
+        else if (mode == 1) return (l * p2 * p3) / 144.0;
+        else if (mode == 2) return (l * p2) / 12.0;
+        else if (mode == 3) return ((p2 / 4.0) * (p2 / 4.0) * l) / 10000.0;
+        else if (mode == 4) return (l * p2 * p3) / 10000.0;
+        else if (mode == 5) return (l * p2) / 100.0; 
+        return 0;
     }
 
     private void calculateAndAdd() {
@@ -141,38 +124,38 @@ public class WoodActivity extends AppCompatActivity {
             double p3 = containerParam3.getVisibility() == View.VISIBLE ? Double.parseDouble(etParam3.getText().toString()) : 0;
             int q = etQty.getText().toString().isEmpty() ? 1 : Integer.parseInt(etQty.getText().toString());
 
-            double vol = 0;
-            if (currentMode == 0) vol = ((p2 / 4.0) * (p2 / 4.0) * l) / 144.0;
-            else if (currentMode == 1) vol = (l * p2 * p3) / 144.0;
-            else if (currentMode == 2) vol = (l * p2) / 12.0;
-            else if (currentMode == 3) vol = ((p2 / 4.0) * (p2 / 4.0) * l) / 10000.0;
-            else if (currentMode == 4) vol = (l * p2 * p3) / 10000.0;
-            else if (currentMode == 5) vol = (l * p2) / 100.0; 
-
-            double totalVol = vol * q;
-            woodList.add(new WoodItem(woodList.size() + 1, l, p2, p3, q, totalVol));
+            double vol = calculateVolumeFormula(l, p2, p3, currentMode);
+            woodList.add(new WoodItem(woodList.size() + 1, l, p2, p3, q, vol * q));
             
-            etLength.setText(""); etParam2.setText(""); etParam3.setText(""); etQty.setText("");
+            etLength.setText(""); etParam2.setText(""); etParam3.setText(""); etQty.setText("1");
             etLength.requestFocus();
             refreshTable();
-        } catch (Exception e) {
-            Toast.makeText(this, "Enter valid measurements", Toast.LENGTH_SHORT).show();
-        }
+        } catch (Exception e) { Toast.makeText(this, "Enter valid measurements", Toast.LENGTH_SHORT).show(); }
     }
 
     private void refreshTable() {
         tableRowsContainer.removeAllViews();
         double sumVol = 0; int sumQty = 0;
 
-        for (WoodItem item : woodList) {
+        for (int i = 0; i < woodList.size(); i++) {
+            WoodItem item = woodList.get(i);
+            item.sNo = i + 1; // Re-index in case of deletions
             View row = getLayoutInflater().inflate(R.layout.row_wood_master, tableRowsContainer, false);
+            
             ((TextView) row.findViewById(R.id.colSno)).setText(String.valueOf(item.sNo));
             ((TextView) row.findViewById(R.id.colLength)).setText(String.valueOf(item.length));
             ((TextView) row.findViewById(R.id.colParam2)).setText(String.valueOf(item.param2));
             ((TextView) row.findViewById(R.id.colQty)).setText(String.valueOf(item.qty));
             ((TextView) row.findViewById(R.id.colVol)).setText(String.format(Locale.US, "%.3f", item.volume));
+            
+            // LONG CLICK TO EDIT/DELETE
+            final int index = i;
+            row.setOnLongClickListener(v -> {
+                showEditDialog(item, index);
+                return true;
+            });
+            
             tableRowsContainer.addView(row);
-
             sumVol += item.volume; sumQty += item.qty;
         }
         
@@ -182,47 +165,71 @@ public class WoodActivity extends AppCompatActivity {
         tvTotalVolume.setText(String.format(Locale.US, "Total %s : %.3f", unit, sumVol));
     }
 
+    // THE NEW EDIT DIALOG SYSTEM
+    private void showEditDialog(WoodItem item, int index) {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_wood, null);
+        EditText etEditLen = dialogView.findViewById(R.id.etEditLength);
+        EditText etEditP2 = dialogView.findViewById(R.id.etEditParam2);
+        EditText etEditQty = dialogView.findViewById(R.id.etEditQty);
+        TextView lblEditP2 = dialogView.findViewById(R.id.lblEditParam2);
+
+        lblEditP2.setText(lblParam2.getText().toString());
+        etEditLen.setText(String.valueOf(item.length));
+        etEditP2.setText(String.valueOf(item.param2));
+        etEditQty.setText(String.valueOf(item.qty));
+
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
+
+        dialogView.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
+        
+        dialogView.findViewById(R.id.btnDeleteRow).setOnClickListener(v -> {
+            woodList.remove(index);
+            refreshTable();
+            dialog.dismiss();
+            Toast.makeText(this, "Item deleted", Toast.LENGTH_SHORT).show();
+        });
+
+        dialogView.findViewById(R.id.btnSaveEdit).setOnClickListener(v -> {
+            try {
+                double newL = Double.parseDouble(etEditLen.getText().toString());
+                double newP2 = Double.parseDouble(etEditP2.getText().toString());
+                int newQ = Integer.parseInt(etEditQty.getText().toString());
+                
+                item.length = newL; item.param2 = newP2; item.qty = newQ;
+                double newVol = calculateVolumeFormula(newL, newP2, item.param3, currentMode);
+                item.volume = newVol * newQ;
+                
+                refreshTable();
+                dialog.dismiss();
+            } catch (Exception e) { Toast.makeText(this, "Invalid numbers", Toast.LENGTH_SHORT).show(); }
+        });
+
+        dialog.show();
+    }
+
     private void showInvoiceDialog() {
-        if (woodList.isEmpty()) {
-            Toast.makeText(this, "Add wood measurements first!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if (woodList.isEmpty()) { Toast.makeText(this, "Add wood measurements first!", Toast.LENGTH_SHORT).show(); return; }
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_price, null);
-        EditText etRate = dialogView.findViewById(R.id.etRate);
-        EditText etSellerName = dialogView.findViewById(R.id.etSellerName);
-        EditText etSellerPhone = dialogView.findViewById(R.id.etSellerPhone);
-        EditText etCustomerName = dialogView.findViewById(R.id.etCustomerName);
-        EditText etCustomerPhone = dialogView.findViewById(R.id.etCustomerPhone);
+        EditText etRate = dialogView.findViewById(R.id.etRate), etSellerName = dialogView.findViewById(R.id.etSellerName), etSellerPhone = dialogView.findViewById(R.id.etSellerPhone), etCustomerName = dialogView.findViewById(R.id.etCustomerName), etCustomerPhone = dialogView.findViewById(R.id.etCustomerPhone);
 
-        new AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setPositiveButton("Create Invoice", (dialog, which) -> {
+        new AlertDialog.Builder(this).setView(dialogView).setPositiveButton("Create Invoice", (dialog, which) -> {
                 try {
                     currentRate = Double.parseDouble(etRate.getText().toString());
-                    String seller = etSellerName.getText().toString() + "\n" + etSellerPhone.getText().toString();
-                    String customer = etCustomerName.getText().toString() + "\n" + etCustomerPhone.getText().toString();
-                    generateInvoice(seller, customer);
-                } catch (Exception e) {
-                    Toast.makeText(this, "Rate is required", Toast.LENGTH_SHORT).show();
-                }
-            })
-            .setNegativeButton("Cancel", null)
-            .show();
+                    generateInvoice(etSellerName.getText().toString() + "\n" + etSellerPhone.getText().toString(), etCustomerName.getText().toString() + "\n" + etCustomerPhone.getText().toString());
+                } catch (Exception e) { Toast.makeText(this, "Rate is required", Toast.LENGTH_SHORT).show(); }
+            }).setNegativeButton("Cancel", null).show();
     }
 
     private void generateInvoice(String seller, String customer) {
-        SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-        SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm:ss a", Locale.US);
+        SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy", Locale.US), sdfTime = new SimpleDateFormat("hh:mm:ss a", Locale.US);
         Date now = new Date();
         
         ((TextView) findViewById(R.id.invDate)).setText("Date : " + sdfDate.format(now));
         ((TextView) findViewById(R.id.invTime)).setText("Time : " + sdfTime.format(now));
-        ((TextView) findViewById(R.id.invSeller)).setText(seller);
-        ((TextView) findViewById(R.id.invCustomer)).setText(customer);
+        ((TextView) findViewById(R.id.invSeller)).setText(seller); ((TextView) findViewById(R.id.invCustomer)).setText(customer);
 
-        LinearLayout invTableRows = findViewById(R.id.invTableRows);
-        invTableRows.removeAllViews();
+        LinearLayout invTableRows = findViewById(R.id.invTableRows); invTableRows.removeAllViews();
         double sumVol = 0; int sumQty = 0;
 
         for (WoodItem item : woodList) {
@@ -232,8 +239,7 @@ public class WoodActivity extends AppCompatActivity {
             ((TextView) row.findViewById(R.id.colParam2)).setText(String.valueOf(item.param2));
             ((TextView) row.findViewById(R.id.colQty)).setText(String.valueOf(item.qty));
             ((TextView) row.findViewById(R.id.colVol)).setText(String.format(Locale.US, "%.3f", item.volume));
-            invTableRows.addView(row);
-            sumVol += item.volume; sumQty += item.qty;
+            invTableRows.addView(row); sumVol += item.volume; sumQty += item.qty;
         }
 
         ((TextView) findViewById(R.id.invTotalVol)).setText(String.format(Locale.US, "%.3f", sumVol));
@@ -244,50 +250,23 @@ public class WoodActivity extends AppCompatActivity {
         viewFlipper.setDisplayedChild(2);
     }
 
-    // --- PDF EXPORT LOGIC ---
     private void exportAndSharePdf() {
-        if (invoicePrintArea.getWidth() == 0 || invoicePrintArea.getHeight() == 0) {
-            Toast.makeText(this, "Invoice layout not ready", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // 1. Create a Bitmap of the Invoice view
+        if (invoicePrintArea.getWidth() == 0 || invoicePrintArea.getHeight() == 0) return;
         Bitmap bitmap = Bitmap.createBitmap(invoicePrintArea.getWidth(), invoicePrintArea.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        invoicePrintArea.draw(canvas);
+        invoicePrintArea.draw(new Canvas(bitmap));
+        PdfDocument pdf = new PdfDocument();
+        PdfDocument.Page page = pdf.startPage(new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create());
+        page.getCanvas().drawBitmap(bitmap, 0, 0, null); pdf.finishPage(page);
 
-        // 2. Create the PdfDocument and Page
-        PdfDocument pdfDocument = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
-        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
-
-        // 3. Draw Bitmap onto PDF Canvas
-        Canvas pdfCanvas = page.getCanvas();
-        pdfCanvas.drawBitmap(bitmap, 0, 0, null);
-        pdfDocument.finishPage(page);
-
-        // 4. Save to Secure Cache Directory
-        File cachePath = new File(getCacheDir(), "invoices");
-        if (!cachePath.exists()) cachePath.mkdirs();
+        File cachePath = new File(getCacheDir(), "invoices"); if (!cachePath.exists()) cachePath.mkdirs();
         File pdfFile = new File(cachePath, "Wood_Invoice_" + System.currentTimeMillis() + ".pdf");
 
         try {
-            FileOutputStream fos = new FileOutputStream(pdfFile);
-            pdfDocument.writeTo(fos);
-            pdfDocument.close();
-            fos.close();
-
-            // 5. Trigger the Native Share Intent via FileProvider
-            Uri pdfUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", pdfFile);
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("application/pdf");
-            shareIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
+            FileOutputStream fos = new FileOutputStream(pdfFile); pdf.writeTo(fos); pdf.close(); fos.close();
+            Intent shareIntent = new Intent(Intent.ACTION_SEND); shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, getPackageName() + ".provider", pdfFile));
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(Intent.createChooser(shareIntent, "Share Invoice via"));
-
-        } catch (IOException e) {
-            pdfDocument.close();
-            Toast.makeText(this, "Failed to generate PDF", Toast.LENGTH_SHORT).show();
-        }
+        } catch (IOException e) { pdf.close(); Toast.makeText(this, "Failed to generate PDF", Toast.LENGTH_SHORT).show(); }
     }
 }
