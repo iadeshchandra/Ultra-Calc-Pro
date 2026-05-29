@@ -105,6 +105,7 @@ public class WoodActivity extends AppCompatActivity {
             @Override
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+                // FIX: Force BOTH text color to black AND background to white so it's always readable
                 tv.setTextColor(Color.BLACK); 
                 tv.setBackgroundColor(Color.WHITE); 
                 tv.setPadding(40, 40, 40, 40);
