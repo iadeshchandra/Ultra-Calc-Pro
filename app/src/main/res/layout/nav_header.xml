@@ -34,7 +34,7 @@
             android:id="@+id/navHeaderEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pirgonj"
+            android:text="Guest Profile"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"/>
