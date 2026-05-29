@@ -91,14 +91,13 @@ public class WoodActivity extends AppCompatActivity {
         }
     }
 
-    // --- UPDATED ADAPTER: BLACK TEXT ON UI, WHITE TEXT IN POPUP ---
     private ArrayAdapter<String> getDarkTextAdapter(String[] items) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items) {
             @NonNull
             @Override
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 TextView tv = (TextView) super.getView(position, convertView, parent);
-                tv.setTextColor(Color.BLACK); // Black text for the light background of the calculator
+                tv.setTextColor(Color.BLACK); 
                 tv.setTextSize(16f);
                 return tv;
             }
@@ -106,7 +105,8 @@ public class WoodActivity extends AppCompatActivity {
             @Override
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
-                tv.setTextColor(Color.WHITE); // White text for the dark dropdown menu popup
+                tv.setTextColor(Color.BLACK); 
+                tv.setBackgroundColor(Color.WHITE); 
                 tv.setPadding(40, 40, 40, 40);
                 return tv;
             }
@@ -123,7 +123,7 @@ public class WoodActivity extends AppCompatActivity {
 
         boolean isImp = mode < 2; 
         ArrayAdapter<String> adapt = getDarkTextAdapter(isImp ? impUnits : metUnits);
-        
+
         spinLen.setAdapter(adapt); spinP2.setAdapter(adapt); spinP3.setAdapter(adapt);
 
         if (mode == 0 || mode == 2) {
@@ -217,7 +217,7 @@ public class WoodActivity extends AppCompatActivity {
         lblEditP2.setText(lblParam2.getText().toString());
 
         ArrayAdapter<String> adapt = getDarkTextAdapter(currentMode < 2 ? impUnits : metUnits);
-        
+
         eSpinL.setAdapter(adapt); eSpinP2.setAdapter(adapt);
 
         etEditLen.setText(String.valueOf(item.length)); etEditP2.setText(String.valueOf(item.param2)); etEditQty.setText(String.valueOf(item.qty));
@@ -305,7 +305,7 @@ public class WoodActivity extends AppCompatActivity {
 
         File cachePath = new File(getCacheDir(), "invoices"); 
         if (!cachePath.exists()) cachePath.mkdirs();
-        
+
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         File pdfFile = new File(cachePath, "Invoice_" + currentCustomerName + "_" + timeStamp + ".pdf");
 
