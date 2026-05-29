@@ -20,7 +20,7 @@ public class HealthActivity extends AppCompatActivity {
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         
         buildToolBar();
-        showTool(0); // Load BMI by default
+        showTool(0); 
     }
 
     private void buildToolBar() {
@@ -33,19 +33,10 @@ public class HealthActivity extends AppCompatActivity {
             item.setGravity(android.view.Gravity.CENTER);
             item.setPadding(30, 14, 30, 14);
             
-            TextView em = new TextView(this); 
-            em.setText(EMOJIS[i]); 
-            em.setTextSize(24); 
-            em.setGravity(android.view.Gravity.CENTER);
+            TextView em = new TextView(this); em.setText(EMOJIS[i]); em.setTextSize(24); em.setGravity(android.view.Gravity.CENTER);
+            TextView lb = new TextView(this); lb.setText(TOOLS[i]); lb.setTextSize(12); lb.setTextColor(0xFF94A3B8); lb.setGravity(android.view.Gravity.CENTER);
             
-            TextView lb = new TextView(this); 
-            lb.setText(TOOLS[i]); 
-            lb.setTextSize(12); 
-            lb.setTextColor(0xFF94A3B8); 
-            lb.setGravity(android.view.Gravity.CENTER);
-            
-            item.addView(em); 
-            item.addView(lb);
+            item.addView(em); item.addView(lb);
             item.setOnClickListener(v -> showTool(idx));
             bar.addView(item);
         }
@@ -67,6 +58,23 @@ public class HealthActivity extends AppCompatActivity {
 
     // --- PROGRAMMATIC UI BUILDERS ---
     
+    private void addContentDescription(String title, String description) {
+        TextView tvTitle = new TextView(this);
+        tvTitle.setText(title);
+        tvTitle.setTextSize(20);
+        tvTitle.setTextColor(0xFFFFFFFF);
+        tvTitle.setTextStyle(1); // Bold
+        tvTitle.setPadding(0, 0, 0, 8);
+        mainContainer.addView(tvTitle);
+
+        TextView tvDesc = new TextView(this);
+        tvDesc.setText(description);
+        tvDesc.setTextSize(14);
+        tvDesc.setTextColor(0xFF94A3B8);
+        tvDesc.setPadding(0, 0, 0, 32);
+        mainContainer.addView(tvDesc);
+    }
+
     private EditText createInput(String hint) {
         EditText et = new EditText(this);
         et.setHint(hint);
@@ -106,6 +114,8 @@ public class HealthActivity extends AppCompatActivity {
     // --- HEALTH CALCULATOR LOGIC ---
 
     private void buildBMI() {
+        addContentDescription("Body Mass Index (BMI)", "BMI is a measure of body fat based on height and weight. Maintaining a normal BMI reduces the risk of chronic diseases like diabetes and high blood pressure.");
+        
         EditText etWeight = createInput("Weight in KG");
         EditText etHeight = createInput("Height in CM");
         Button btnCalc = createButton("CALCULATE BMI");
@@ -128,6 +138,8 @@ public class HealthActivity extends AppCompatActivity {
     }
 
     private void buildBMR() {
+        addContentDescription("Basal Metabolic Rate (BMR)", "BMR represents the total number of calories your body needs to perform basic, life-sustaining functions (like breathing and digestion) while at rest.");
+
         EditText etAge = createInput("Age (Years)");
         EditText etWeight = createInput("Weight in KG");
         EditText etHeight = createInput("Height in CM");
@@ -148,7 +160,6 @@ public class HealthActivity extends AppCompatActivity {
                 double w = Double.parseDouble(etWeight.getText().toString());
                 double h = Double.parseDouble(etHeight.getText().toString());
                 
-                // Mifflin-St Jeor Equation
                 double bmr = (10 * w) + (6.25 * h) - (5 * age);
                 bmr = rbMale.isChecked() ? bmr + 5 : bmr - 161;
                 
@@ -158,6 +169,8 @@ public class HealthActivity extends AppCompatActivity {
     }
 
     private void buildCalories() {
+        addContentDescription("Daily Calorie Needs", "Calculate the exact number of calories you need to consume daily to either maintain your current weight, lose weight, or gain muscle mass safely.");
+
         EditText etAge = createInput("Age (Years)");
         EditText etWeight = createInput("Weight in KG");
         EditText etHeight = createInput("Height in CM");
@@ -169,17 +182,18 @@ public class HealthActivity extends AppCompatActivity {
                 int age = Integer.parseInt(etAge.getText().toString());
                 double w = Double.parseDouble(etWeight.getText().toString());
                 double h = Double.parseDouble(etHeight.getText().toString());
-                
-                double bmr = (10 * w) + (6.25 * h) - (5 * age) + 5; // Assuming male average for quick calc
+                double bmr = (10 * w) + (6.25 * h) - (5 * age) + 5; 
                 
                 tvResult.setText(String.format(Locale.US, 
-                    "To Maintain Weight: %.0f Cal\nTo Lose Weight: %.0f Cal\nTo Gain Weight: %.0f Cal", 
+                    "To Maintain Weight: %.0f Cal/day\nTo Lose Weight: %.0f Cal/day\nTo Gain Weight: %.0f Cal/day", 
                     bmr * 1.375, (bmr * 1.375) - 500, (bmr * 1.375) + 500));
             } catch(Exception e) { tvResult.setText("Please enter valid numbers"); }
         });
     }
 
     private void buildWater() {
+        addContentDescription("Hydration Goal", "Proper hydration is critical for joint lubrication, temperature regulation, and overall organ health. Your needs increase with physical exertion.");
+
         EditText etWeight = createInput("Weight in KG");
         EditText etMinutes = createInput("Daily Exercise (Minutes)");
         Button btnCalc = createButton("CALCULATE HYDRATION");
@@ -189,8 +203,6 @@ public class HealthActivity extends AppCompatActivity {
             try {
                 double weight = Double.parseDouble(etWeight.getText().toString());
                 double exercise = Double.parseDouble(etMinutes.getText().toString());
-                
-                // General rule: weight in kg * 0.033 = Liters base. Add 0.35L per 30 mins exercise.
                 double liters = (weight * 0.033) + ((exercise / 30.0) * 0.35);
                 
                 tvResult.setText(String.format(Locale.US, "Daily Water Goal:\n%.1f Liters (approx %.0f glasses)", liters, liters * 4));
