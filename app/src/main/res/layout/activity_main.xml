@@ -18,7 +18,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:background="#0F172A">
-            
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMenu"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -27,7 +27,7 @@
                 android:text="≡"
                 android:textSize="28sp"
                 android:textColor="#F8FAFC"/>
-                
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFFFFF"
+        android:background="#E0F2F1"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu" />
 
