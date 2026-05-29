@@ -33,10 +33,19 @@ public class HealthActivity extends AppCompatActivity {
             item.setGravity(android.view.Gravity.CENTER);
             item.setPadding(30, 14, 30, 14);
             
-            TextView em = new TextView(this); em.setText(EMOJIS[i]); em.setTextSize(24); em.setGravity(android.view.Gravity.CENTER);
-            TextView lb = new TextView(this); lb.setText(TOOLS[i]); lb.setTextSize(12); lb.setTextColor(0xFF94A3B8); lb.setGravity(android.view.Gravity.CENTER);
+            TextView em = new TextView(this); 
+            em.setText(EMOJIS[i]); 
+            em.setTextSize(24); 
+            em.setGravity(android.view.Gravity.CENTER);
             
-            item.addView(em); item.addView(lb);
+            TextView lb = new TextView(this); 
+            lb.setText(TOOLS[i]); 
+            lb.setTextSize(12); 
+            lb.setTextColor(0xFF94A3B8); 
+            lb.setGravity(android.view.Gravity.CENTER);
+            
+            item.addView(em); 
+            item.addView(lb);
             item.setOnClickListener(v -> showTool(idx));
             bar.addView(item);
         }
@@ -56,14 +65,12 @@ public class HealthActivity extends AppCompatActivity {
         }
     }
 
-    // --- PROGRAMMATIC UI BUILDERS ---
-    
     private void addContentDescription(String title, String description) {
         TextView tvTitle = new TextView(this);
         tvTitle.setText(title);
         tvTitle.setTextSize(20);
         tvTitle.setTextColor(0xFFFFFFFF);
-        tvTitle.setTextStyle(1); // Bold
+        tvTitle.setTextStyle(1); 
         tvTitle.setPadding(0, 0, 0, 8);
         mainContainer.addView(tvTitle);
 
@@ -110,8 +117,6 @@ public class HealthActivity extends AppCompatActivity {
         mainContainer.addView(tv);
         return tv;
     }
-
-    // --- HEALTH CALCULATOR LOGIC ---
 
     private void buildBMI() {
         addContentDescription("Body Mass Index (BMI)", "BMI is a measure of body fat based on height and weight. Maintaining a normal BMI reduces the risk of chronic diseases like diabetes and high blood pressure.");
