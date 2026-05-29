@@ -12,7 +12,7 @@
         android:gravity="center_vertical"
         android:background="#0F172A">
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnBackFin"
+            android:id="@+id/btnBack"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -28,12 +28,27 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
-    <TextView
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Financial Calculators\nComing Soon!"
-        android:textColor="#94A3B8"
-        android:textSize="18sp"
-        android:gravity="center" />
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:background="#0F172A">
+        <LinearLayout
+            android:id="@+id/toolBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"/>
+    </HorizontalScrollView>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/mainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"/>
+    </ScrollView>
 </LinearLayout>
