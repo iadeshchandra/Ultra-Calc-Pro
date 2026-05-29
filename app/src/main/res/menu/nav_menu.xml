@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_home" android:title="Home" />
-        <item android:id="@+id/nav_help" android:title="Help" />
-        <item android:id="@+id/nav_invoice" android:title="Save invoice" />
-        <item android:id="@+id/nav_profile" android:title="Profile" />
-        <item android:id="@+id/nav_lang" android:title="Select your language" />
-        <item android:id="@+id/nav_manual" android:title="User manual" />
+        <item android:id="@+id/nav_home" android:icon="@android:drawable/ic_menu_view" android:title="Home" />
+        <item android:id="@+id/nav_help" android:icon="@android:drawable/ic_menu_help" android:title="Help" />
+        <item android:id="@+id/nav_invoice" android:icon="@android:drawable/ic_menu_save" android:title="Save invoice" />
+        <item android:id="@+id/nav_profile" android:icon="@android:drawable/ic_menu_myplaces" android:title="Profile" />
+        <item android:id="@+id/nav_lang" android:icon="@android:drawable/ic_menu_sort_by_size" android:title="Select your language" />
+        <item android:id="@+id/nav_manual" android:icon="@android:drawable/ic_menu_info_details" android:title="User manual" />
     </group>
 
     <item android:title="Support and security">
         <menu>
-            <item android:id="@+id/nav_share" android:title="Share App" />
-            <item android:id="@+id/nav_rate" android:title="Rate this app" />
-            <item android:id="@+id/nav_privacy" android:title="Privacy policy" />
-            <item android:id="@+id/nav_bug" android:title="Bug report" />
+            <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share" android:title="Share App" />
+            <item android:id="@+id/nav_rate" android:icon="@android:drawable/btn_star" android:title="Rate this app" />
+            <item android:id="@+id/nav_privacy" android:icon="@android:drawable/ic_secure" android:title="Privacy policy" />
+            <item android:id="@+id/nav_bug" android:icon="@android:drawable/ic_menu_report_image" android:title="Bug report" />
         </menu>
     </item>
 </menu>
