@@ -3,9 +3,11 @@ package com.adeshchandra.ultracalc;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -13,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -36,17 +39,13 @@ public class WoodActivity extends AppCompatActivity {
     private Spinner spinLen, spinP2, spinP3;
     private LinearLayout containerParam3, tableRowsContainer, invoicePrintArea;
     private double currentRate = 0.0;
-    private String currentCustomerName = "Unknown_Customer"; // Added to capture name for PDF saving
+    private String currentCustomerName = "Unknown_Customer";
 
     private final String[] impUnits = {"ft", "in"};
     private final String[] metUnits = {"m", "cm"};
 
     class WoodItem {
-        int sNo; 
-        double length, param2, param3, volume; 
-        int qty;
-        String uLen, uP2, uP3;
-
+        int sNo; double length, param2, param3, volume; int qty; String uLen, uP2, uP3;
         WoodItem(int s, double l, String ul, double p2, String up2, double p3, String up3, int q, double v) { 
             sNo=s; length=l; uLen=ul; param2=p2; uP2=up2; param3=p3; uP3=up3; qty=q; volume=v; 
         }
@@ -65,12 +64,10 @@ public class WoodActivity extends AppCompatActivity {
         findViewById(R.id.btnBackToCalcFromInvoice).setOnClickListener(v -> viewFlipper.setDisplayedChild(1));
         findViewById(R.id.btnSharePdf).setOnClickListener(v -> exportAndSharePdf());
 
-        // New UI Action Listeners dynamically routing to features
         findViewById(R.id.btnHelp).setOnClickListener(v -> startActivity(new Intent(this, ManualActivity.class)));
         findViewById(R.id.btnLang).setOnClickListener(v -> Toast.makeText(this, "Language Switcher Coming Soon!", Toast.LENGTH_SHORT).show());
         findViewById(R.id.btnAllSavedRecords).setOnClickListener(v -> startActivity(new Intent(this, InvoiceHistoryActivity.class)));
 
-        // Bottom Navigation handling
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         if (bottomNav != null) {
             bottomNav.setOnItemSelectedListener(item -> {
@@ -94,6 +91,30 @@ public class WoodActivity extends AppCompatActivity {
         }
     }
 
+    // --- CUSTOM ADAPTER TO FORCE SPINNER TEXT TO BLACK ---
+    private ArrayAdapter<String> getDarkTextAdapter(String[] items) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items) {
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                TextView tv = (TextView) super.getView(position, convertView, parent);
+                tv.setTextColor(Color.BLACK);
+                tv.setTextSize(16f);
+                return tv;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+                TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+                tv.setTextColor(Color.BLACK);
+                tv.setPadding(30, 30, 30, 30);
+                return tv;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
+    }
+
     private void openCalculator(int mode) {
         currentMode = mode; woodList.clear(); refreshTable();
         tvCalcTitle = findViewById(R.id.tvCalcTitle);
@@ -101,8 +122,10 @@ public class WoodActivity extends AppCompatActivity {
         containerParam3 = findViewById(R.id.containerParam3);
 
         boolean isImp = mode < 2; 
-        ArrayAdapter<String> adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, isImp ? impUnits : metUnits);
-        adapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        
+        // Applying the new Custom Adapter here!
+        ArrayAdapter<String> adapt = getDarkTextAdapter(isImp ? impUnits : metUnits);
+        
         spinLen.setAdapter(adapt); spinP2.setAdapter(adapt); spinP3.setAdapter(adapt);
 
         if (mode == 0 || mode == 2) {
@@ -195,8 +218,9 @@ public class WoodActivity extends AppCompatActivity {
         TextView lblEditP2 = dialogView.findViewById(R.id.lblEditParam2);
         lblEditP2.setText(lblParam2.getText().toString());
 
-        ArrayAdapter<String> adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, currentMode < 2 ? impUnits : metUnits);
-        adapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Applying the custom adapter to the Edit Dialog as well!
+        ArrayAdapter<String> adapt = getDarkTextAdapter(currentMode < 2 ? impUnits : metUnits);
+        
         eSpinL.setAdapter(adapt); eSpinP2.setAdapter(adapt);
 
         etEditLen.setText(String.valueOf(item.length)); etEditP2.setText(String.valueOf(item.param2)); etEditQty.setText(String.valueOf(item.qty));
@@ -232,11 +256,8 @@ public class WoodActivity extends AppCompatActivity {
             EditText etCustomerPhone = dialogView.findViewById(R.id.etCustomerPhone);
             try {
                 currentRate = Double.parseDouble(etRate.getText().toString());
-                
-                // Ensure customer name is formatted safely for file saving
                 String custName = etCustomerName.getText().toString().trim();
                 currentCustomerName = custName.isEmpty() ? "Unknown_Customer" : custName.replaceAll("[^a-zA-Z0-9]", "_");
-                
                 generateInvoice(etSellerName.getText().toString() + "\n" + etSellerPhone.getText().toString(), etCustomerName.getText().toString() + "\n" + etCustomerPhone.getText().toString());
             } catch (Exception e) { Toast.makeText(this, "Rate is required", Toast.LENGTH_SHORT).show(); }
         }).show();
@@ -288,7 +309,6 @@ public class WoodActivity extends AppCompatActivity {
         File cachePath = new File(getCacheDir(), "invoices"); 
         if (!cachePath.exists()) cachePath.mkdirs();
         
-        // Dynamically name the file based on the Customer and Timestamp
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         File pdfFile = new File(cachePath, "Invoice_" + currentCustomerName + "_" + timeStamp + ".pdf");
 
