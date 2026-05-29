@@ -1,5 +1,6 @@
 package com.adeshchandra.ultracalc;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,7 +71,8 @@ public class HealthActivity extends AppCompatActivity {
         tvTitle.setText(title);
         tvTitle.setTextSize(20);
         tvTitle.setTextColor(0xFFFFFFFF);
-        tvTitle.setTextStyle(1); 
+        // CORRECTED: Using setTypeface instead of setTextStyle
+        tvTitle.setTypeface(null, Typeface.BOLD); 
         tvTitle.setPadding(0, 0, 0, 8);
         mainContainer.addView(tvTitle);
 
