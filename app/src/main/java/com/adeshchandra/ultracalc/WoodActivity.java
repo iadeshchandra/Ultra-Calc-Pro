@@ -91,14 +91,14 @@ public class WoodActivity extends AppCompatActivity {
         }
     }
 
-    // --- CUSTOM ADAPTER TO FORCE SPINNER TEXT TO BLACK ---
+    // --- UPDATED ADAPTER: BLACK TEXT ON UI, WHITE TEXT IN POPUP ---
     private ArrayAdapter<String> getDarkTextAdapter(String[] items) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items) {
             @NonNull
             @Override
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 TextView tv = (TextView) super.getView(position, convertView, parent);
-                tv.setTextColor(Color.BLACK);
+                tv.setTextColor(Color.BLACK); // Black text for the light background of the calculator
                 tv.setTextSize(16f);
                 return tv;
             }
@@ -106,8 +106,8 @@ public class WoodActivity extends AppCompatActivity {
             @Override
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
-                tv.setTextColor(Color.BLACK);
-                tv.setPadding(30, 30, 30, 30);
+                tv.setTextColor(Color.WHITE); // White text for the dark dropdown menu popup
+                tv.setPadding(40, 40, 40, 40);
                 return tv;
             }
         };
@@ -122,8 +122,6 @@ public class WoodActivity extends AppCompatActivity {
         containerParam3 = findViewById(R.id.containerParam3);
 
         boolean isImp = mode < 2; 
-        
-        // Applying the new Custom Adapter here!
         ArrayAdapter<String> adapt = getDarkTextAdapter(isImp ? impUnits : metUnits);
         
         spinLen.setAdapter(adapt); spinP2.setAdapter(adapt); spinP3.setAdapter(adapt);
@@ -218,7 +216,6 @@ public class WoodActivity extends AppCompatActivity {
         TextView lblEditP2 = dialogView.findViewById(R.id.lblEditParam2);
         lblEditP2.setText(lblParam2.getText().toString());
 
-        // Applying the custom adapter to the Edit Dialog as well!
         ArrayAdapter<String> adapt = getDarkTextAdapter(currentMode < 2 ? impUnits : metUnits);
         
         eSpinL.setAdapter(adapt); eSpinP2.setAdapter(adapt);
