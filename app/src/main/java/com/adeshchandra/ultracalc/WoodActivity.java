@@ -91,29 +91,31 @@ public class WoodActivity extends AppCompatActivity {
         }
     }
 
+    // --- BULLETPROOF ADAPTER: Creates TextViews from scratch to defeat Dark Mode overrides ---
     private ArrayAdapter<String> getDarkTextAdapter(String[] items) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items) {
+        return new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items) {
             @NonNull
             @Override
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                TextView tv = (TextView) super.getView(position, convertView, parent);
-                tv.setTextColor(Color.BLACK); 
+                TextView tv = new TextView(getContext());
+                tv.setText(getItem(position));
+                tv.setTextColor(Color.BLACK); // FORCE SOLID BLACK TEXT
                 tv.setTextSize(16f);
+                tv.setPadding(10, 10, 10, 10);
                 return tv;
             }
 
             @Override
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
-                TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
-                // FIX: Force BOTH text color to black AND background to white so it's always readable
-                tv.setTextColor(Color.BLACK); 
-                tv.setBackgroundColor(Color.WHITE); 
+                TextView tv = new TextView(getContext());
+                tv.setText(getItem(position));
+                tv.setTextColor(Color.BLACK); // FORCE SOLID BLACK TEXT
+                tv.setBackgroundColor(Color.WHITE); // FORCE SOLID WHITE BACKGROUND
+                tv.setTextSize(16f);
                 tv.setPadding(40, 40, 40, 40);
                 return tv;
             }
         };
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        return adapter;
     }
 
     private void openCalculator(int mode) {
